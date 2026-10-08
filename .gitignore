@@ -1,0 +1,15 @@
+# 可从源码重新生成的编译产物
+**/bin/
+**/obj/
+
+# 本地检查准备材料
+/lab1/检查准备.md
+/lab1/tools/check_readiness.sh
+/lab1/images/check_readiness_*.txt
+
+# 临时文件
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db

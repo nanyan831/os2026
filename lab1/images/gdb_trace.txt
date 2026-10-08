@@ -1,0 +1,62 @@
+$ bash tools/trace_boot.sh
+0x0000000000001000 in ?? ()
+=== Reset PC ===
+$1 = 0x1000
+=> 0x1000:	auipc	t0,0x0
+   0x1004:	addi	a2,t0,40
+   0x1008:	csrr	a0,mhartid
+   0x100c:	ld	a1,32(t0)
+   0x1010:	ld	t0,24(t0)
+   0x1014:	jr	t0
+   0x1018:	unimp
+   0x101a:	.2byte	0x8000
+0x1018:	0x0000000080000000	0x0000000087000000
+0x1028:	0x000000004942534f	0x0000000000000002
+=== Kernel preloaded before execution ===
+   0x80200000 <kern_entry>:	auipc	sp,0x3
+   0x80200004 <kern_entry+4>:	mv	sp,sp
+   0x80200008 <kern_entry+8>:	j	0x8020000a <kern_init>
+   0x8020000a <kern_init>:	auipc	a0,0x3
+0x0000000000001004 in ?? ()
+=== After first instruction ===
+$2 = 0x1004
+Breakpoint 1 at 0x80000000
+
+Breakpoint 1, 0x0000000080000000 in ?? ()
+=== OpenSBI entry ===
+$3 = 0x80000000
+=> 0x80000000:	add	s0,a0,zero
+   0x80000004:	add	s1,a1,zero
+   0x80000008:	add	s2,a2,zero
+   0x8000000c:	jal	ra,0x80000560
+Breakpoint 2 at 0x80200000: file kern/init/entry.S, line 7.
+
+Breakpoint 2, kern_entry () at kern/init/entry.S:7
+7	    la sp, bootstacktop
+=== Kernel entry ===
+pc             0x80200000	0x80200000 <kern_entry>
+sp             0x8003def0	0x8003def0
+a0             0x0	0
+a1             0x87000000	2264924160
+=> 0x80200000 <kern_entry>:	auipc	sp,0x3
+   0x80200004 <kern_entry+4>:	mv	sp,sp
+   0x80200008 <kern_entry+8>:	j	0x8020000a <kern_init>
+   0x8020000a <kern_init>:	auipc	a0,0x3
+   0x8020000e <kern_init+4>:	addi	a0,a0,-2
+   0x80200012 <kern_init+8>:	auipc	a2,0x3
+$4 = 0x80203000
+0x0000000080200004 in kern_entry () at kern/init/entry.S:7
+7	    la sp, bootstacktop
+9	    tail kern_init
+=== After stack setup ===
+pc             0x80200008	0x80200008 <kern_entry+8>
+sp             0x80203000	0x80203000 <SBI_CONSOLE_PUTCHAR>
+Breakpoint 3 at 0x8020000a: file kern/init/init.c, line 8.
+
+Breakpoint 3, kern_init () at kern/init/init.c:8
+8	    memset(edata, 0, end - edata);
+=== C entry ===
+$5 = 0x8020000a
+#0  kern_init () at kern/init/init.c:8
+#1  0x000000008000966a in ?? ()
+[Inferior 1 (process 1) detached]
