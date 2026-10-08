@@ -10,6 +10,8 @@
 | **完成日期** | 2026-09-29 |
 | **报告材料更新日期** | 2026-10-08 |
 
+提交仓库：[nanyan831/os2026](https://github.com/nanyan831/os2026/tree/lab1)，实验分支为 `lab1`。本分支使用 `code/` 保存代码，`report/` 保存报告、提示词和截图；提示词汇总见 [prompt.md](prompt.md)。
+
 ### 小组分工
 
 #### 练习分工
@@ -51,7 +53,7 @@
 | 调试器 | `gdb-multiarch` |
 | 模拟器 | `qemu-system-riscv64`，`virt` 机器 |
 | 固件 | OpenSBI v1.0，Runtime SBI Version 0.3 |
-| 工程目录 | `labcodes/lab1` |
+| 提交工程目录 | `code/`（本地：`labcodes/code`） |
 
 报告截图对应 Ubuntu 登录环境中的 `/opt/qemu/bin/qemu-system-riscv64`（QEMU 7.0.0）。本机另有 `/usr/bin` 下的 QEMU 6.2.0（默认固件 OpenSBI v0.9）；启动前应使用 `command -v qemu-system-riscv64` 和 `--version` 核对实际使用版本。2026-10-07 在报告对应环境中重新完成编译、QEMU 输出和 GDB 启动/栈验证。
 
@@ -60,8 +62,8 @@
 | 成员 | AI 编程工具 | 底层模型 | 备注 |
 |------|------------|---------|------|
 | 缪臻（2413807） | Codex 桌面应用 | GPT-5 | 本次协作使用；用于阅读实验文档、分析源码、执行编译与调试、整理报告初稿 |
-| 王子卓（2411070） |  |  |  |
-| 刘宸旭（2414139，组长） |
+| 王子卓（2411070） | Codex 桌面应用 | GPT-5 | 小组确认：工具及模型使用情况与缪臻相同 |
+| 刘宸旭（2414139，组长） | Codex 桌面应用 | GPT-5 | 小组确认：工具及模型使用情况与缪臻相同 |
 
 **说明：**本实验中的 AI 输出均结合源码和实际运行结果进行了核对。对于 QEMU 版本差异引起的启动问题，没有直接照搬指导书中的命令，而是根据 OpenSBI 输出和 GDB 结果定位原因并调整参数。
 
@@ -102,6 +104,8 @@ kern_init（C 语言入口）
 补充实测：本次链接符号 `edata` 和 `end` 均为 `0x80203008`，因此 `memset` 的长度实际为 0，当前构建没有非空 BSS 区域需要清零。该语句保留了内核对零初始化区域进行初始化的通用逻辑。
 
 ### 3.3 主要文件与作用
+
+下表及后文中的源文件、脚本路径均相对于 `code/`；报告中的图片路径相对于 `report/`。
 
 | 文件或模块 | 作用 |
 |------------|------|
@@ -164,12 +168,14 @@ bootstacktop:
 
 以下提示词根据本次协作目标和实际环境整理，供复现使用，并非历史输入的逐字记录：
 
+本实验已记录的用户提示词与复现提示词分别汇总在 [prompt.md](prompt.md) 中。
+
 ````markdown
 [GOAL]
 阅读课程 Lab 1 指导书，在现有起始代码基础上完成最小可执行内核实验和实验报告。
 
 [CONTEXT]
-- 工程位于 labcodes/lab1。
+- 提交工程位于 code/，执行编译和调试时进入该目录。
 - 运行环境为 Windows + WSL 2 Ubuntu 22.04。
 - 使用 RISC-V 交叉编译器、QEMU 和 GDB。
 - Lab 1 包含入口汇编分析和 GDB 启动流程验证两项练习。
@@ -201,7 +207,7 @@ bootstacktop:
 
 **完成内容：**
 
-- 按指导书创建 `labcodes/lab1`，复制课程提供的起始代码。
+- 初期按指导书创建 `labcodes/lab1`，复制课程提供的起始代码；按统一交付要求整理后，提交工程位于 `code/`。
 - 执行 `make`，成功编译所有 C 和汇编文件。
 - 生成 `bin/kernel` 和 `bin/ucore.img`。
 
@@ -369,7 +375,7 @@ pc = 0x8020000a
 
 ### 5.1 编译测试
 
-在 `labcodes/lab1` 执行 `make clean && make`，实际输出如下：
+在工程目录执行 `make clean && make`，实际输出如下。按统一交付结构复现时，先进入 `code/`：
 
 ```text
 + cc kern/init/entry.S
@@ -435,7 +441,7 @@ Domain0 Next Mode         : S-mode
 
 ![GDB 启动流程跟踪](./images/gdb_trace.png)
 
-两张图片均在 Ubuntu 22.04 的独立 X11 会话中直接截取真实的 xterm 窗口。图 1 截取时 QEMU 和内核仍在运行，画面中可见 `Domain0 Next Address = 0x80200000` 和内核启动字符串；图 2 是实际执行 `tools/trace_boot.sh` 后的 GDB 终端画面。截图流程保存在 `tools/capture_ubuntu_screenshots.sh`，可重复运行并复核结果。
+两张图片均在 Ubuntu 22.04 的独立 X11 会话中直接截取真实的 xterm 窗口。图 1 截取时 QEMU 和内核仍在运行，画面中可见 `Domain0 Next Address = 0x80200000` 和内核启动字符串；图 2 是实际执行 `tools/trace_boot.sh` 后的 GDB 终端画面。原截图产生于初期工程目录，统一整理时保留原始图片内容，将其移入 `report/images/`。截图流程保存在 `code/tools/capture_ubuntu_screenshots.sh`，输出位置已适配为 `report/images/`。
 
 ---
 

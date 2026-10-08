@@ -2,7 +2,7 @@
 set -euo pipefail
 
 project_root="$(cd "$(dirname "$0")/.." && pwd)"
-image_dir="$project_root/images"
+image_dir="$project_root/../report/images"
 work_dir="$(mktemp -d)"
 mkdir -p "$image_dir"
 
@@ -22,11 +22,11 @@ cat >"$work_dir/run-qemu.sh" <<EOF
 #!/usr/bin/env bash
 cd "$project_root"
 clear
-printf '\033[1;32m%s@%s\033[0m:\033[1;34m~/labcodes/lab1\033[0m\$ grep PRETTY_NAME /etc/os-release\n' "\$(whoami)" "\$(hostname)"
+printf '\033[1;32m%s@%s\033[0m:\033[1;34m$project_root\033[0m\$ grep PRETTY_NAME /etc/os-release\n' "\$(whoami)" "\$(hostname)"
 grep '^PRETTY_NAME=' /etc/os-release
-printf '\n\033[1;32m%s@%s\033[0m:\033[1;34m~/labcodes/lab1\033[0m\$ make clean && make\n' "\$(whoami)" "\$(hostname)"
+printf '\n\033[1;32m%s@%s\033[0m:\033[1;34m$project_root\033[0m\$ make clean && make\n' "\$(whoami)" "\$(hostname)"
 make clean && make
-printf '\n\033[1;32m%s@%s\033[0m:\033[1;34m~/labcodes/lab1\033[0m\$ make qemu\n' "\$(whoami)" "\$(hostname)"
+printf '\n\033[1;32m%s@%s\033[0m:\033[1;34m$project_root\033[0m\$ make qemu\n' "\$(whoami)" "\$(hostname)"
 : >"$work_dir/qemu-live.log"
 (
     while ! grep -q '(THU.CST) os is loading' "$work_dir/qemu-live.log"; do
@@ -41,9 +41,9 @@ cat >"$work_dir/run-gdb.sh" <<EOF
 #!/usr/bin/env bash
 cd "$project_root"
 clear
-printf '\033[1;32m%s@%s\033[0m:\033[1;34m~/labcodes/lab1\033[0m\$ grep PRETTY_NAME /etc/os-release\n' "\$(whoami)" "\$(hostname)"
+printf '\033[1;32m%s@%s\033[0m:\033[1;34m$project_root\033[0m\$ grep PRETTY_NAME /etc/os-release\n' "\$(whoami)" "\$(hostname)"
 grep '^PRETTY_NAME=' /etc/os-release
-printf '\n\033[1;32m%s@%s\033[0m:\033[1;34m~/labcodes/lab1\033[0m\$ bash tools/trace_boot.sh\n' "\$(whoami)" "\$(hostname)"
+printf '\n\033[1;32m%s@%s\033[0m:\033[1;34m$project_root\033[0m\$ bash tools/trace_boot.sh\n' "\$(whoami)" "\$(hostname)"
 bash tools/trace_boot.sh
 touch "$work_dir/gdb-ready"
 sleep 60
@@ -99,12 +99,12 @@ capture_terminal 97 \
     'Ubuntu 22.04 — Lab 1 build and QEMU run' \
     "$work_dir/run-qemu.sh" \
     "$work_dir/qemu-ready" \
-    "$image_dir/qemu_result_actual.png"
+    "$image_dir/qemu_result.png"
 
 capture_terminal 98 \
     'Ubuntu 22.04 — Lab 1 GDB boot trace' \
     "$work_dir/run-gdb.sh" \
     "$work_dir/gdb-ready" \
-    "$image_dir/gdb_trace_actual.png"
+    "$image_dir/gdb_trace.png"
 
-identify "$image_dir/qemu_result_actual.png" "$image_dir/gdb_trace_actual.png"
+identify "$image_dir/qemu_result.png" "$image_dir/gdb_trace.png"

@@ -1,4 +1,4 @@
-# 南开大学操作系统实验（2026）
+# 南开大学操作系统实验（2026）——Lab 1
 
 小组人数：3 人。组长：刘宸旭。成员及已确认分工如下。
 
@@ -10,9 +10,28 @@
 
 ## Lab 1：最小可执行内核
 
-- [实验报告](lab1/实验报告.md)
-- [真实 Ubuntu 编译与运行截图](lab1/images/qemu_result.png)
-- [真实 Ubuntu GDB 截图](lab1/images/gdb_trace.png)
+实验交付分支：[`lab1`](https://github.com/nanyan831/os2026/tree/lab1)。
+
+```text
+code/
+    Makefile
+    kern/
+    libs/
+    tools/
+report/
+    report.md
+    prompt.md
+    images/
+        qemu_result.png
+        gdb_trace.png
+```
+
+- [实验报告](report/report.md)
+- [实验提示词汇总](report/prompt.md)
+- [真实 Ubuntu 编译与运行截图](report/images/qemu_result.png)
+- [真实 Ubuntu GDB 截图](report/images/gdb_trace.png)
+
+`report/images/` 中另保留两份原始终端文本日志。
 
 ### 环境
 
@@ -21,7 +40,8 @@
 ### 编译与运行
 
 ```bash
-cd lab1
+git clone --branch lab1 --single-branch https://github.com/nanyan831/os2026.git
+cd os2026/code
 make
 make qemu
 ```
@@ -30,7 +50,7 @@ make qemu
 
 ### 手工调试
 
-两个 Ubuntu 终端均进入 `lab1`。终端 A 执行 `make debug`，终端 B 执行 `make gdb`。
+两个 Ubuntu 终端均进入 `code/`。终端 A 执行 `make debug`，终端 B 执行 `make gdb`。
 
 ```gdb
 p/x $pc
@@ -58,6 +78,8 @@ bash tools/trace_boot.sh
 
 脚本使用 QEMU 和 GDB 跟踪复位地址、OpenSBI 入口、内核入口、栈设置和 C 入口。运行前结束占用 1234 端口的其他调试实例。
 
+截图脚本为 `code/tools/capture_ubuntu_screenshots.sh`，需要 Ubuntu 中的 `Xvfb`、`xterm`、`twm`、ImageMagick 和相应字体，输出到 `report/images/`。
+
 本实验起始工程没有 `tools/grade.sh`，因此不能用 `make grade` 作为通过依据。编译产物 `bin/`、`obj/` 不提交，按以上命令重新生成。仓库应包含代码、报告及报告引用的图片。
 
 ## 本地改动说明
@@ -70,3 +92,7 @@ Lab 1 内核核心逻辑沿用课程提供的起始代码。本次工作主要�
 4. 按模板整理实验报告。
 
 指导书：[课程实验文档](http://8.135.34.58/lab2026/_book/)。目标仓库：[nanyan831/os2026](https://github.com/nanyan831/os2026)。
+
+## 小组仓库统计
+
+仓库为小组统一公开仓库。2026-10-08，小组确认组长刘宸旭已填写[老师的仓库统计问卷](https://nankai.feishu.cn/share/base/form/shrcnGKLY5Pmpd8G7TXxMvhhutg)。问卷仅需组长提交一次；后续需要调整信息时在提交记录中修改。
