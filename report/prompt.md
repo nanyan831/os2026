@@ -102,7 +102,21 @@ qemu-system-riscv64 -machine virt -nographic -bios default -kernel bin/ucore.img
 
 逐项观察：下一阶段地址是否为 `0x80200000`，模式是否为 `S-mode`，最后是否出现 `(THU.CST) os is loading ...`。只有固件横幅还不能证明内核启动。
 
-如果以上验证符合预期，将 Makefile 的 `qemu` 和 `debug` 目标中的原 loader 参数改为 `-kernel $(UCOREIMG)`；如果当前 Makefile 已使用这个参数，就直接执行 `make qemu` 复核。随后再次用 `Ctrl+A`、`X` 退出，避免普通运行实例与调试实例同时占用终端。
+确认出现上述输出后，按下面的顺序操作：
+
+1. **退出刚才的 QEMU。** 按 `Ctrl+A`，松开后按 `X`，回到 Ubuntu shell。
+
+2. **修改启动参数。** 输入 `nano Makefile`，找到 `qemu` 和 `debug` 两个目标，把其中的 `-device loader,file=$(UCOREIMG),addr=0x80200000` 替换为 `-kernel $(UCOREIMG)`。保留原有缩进、行末续行符，以及 `debug` 中的 `-s -S`。已是 `-kernel $(UCOREIMG)` 的行保持原样。按 `Ctrl+O`、回车保存，再按 `Ctrl+X` 退出编辑器。
+
+3. **检查 Makefile 的启动效果。** 在 Ubuntu shell 输入：
+
+   ```bash
+   make qemu
+   ```
+
+   预期再次看到下一阶段地址 `0x80200000`、模式 `S-mode` 和 `(THU.CST) os is loading ...`，说明通过 Makefile 启动也能进入内核。
+
+4. **结束本次运行。** 按 `Ctrl+A`，松开后按 `X`，确认回到 Ubuntu shell，再进行下一轮调试。
 
 **下一步：** 确认内核字符串出现后，使用 GDB 检查实际的启动路径。
 
