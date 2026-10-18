@@ -146,7 +146,7 @@ def main():
                'grading_injection_clean': True, 'report_links_valid': True,
                'source_whitespace': {'new_issues': 0, 'inherited_template_findings': inherited_whitespace,
                                      'raw_tool_logs_preserved': True},
-               'remaining_metadata': ['members exact model identifiers']}
+               'remaining_metadata': []}
     audit_path = ROOT / 'report/audit.json'
     audit_path.write_text(json.dumps(summary, indent=2))
     git = ['git']

@@ -101,7 +101,5 @@
     "inherited_template_findings": 45,
     "raw_tool_logs_preserved": true
   },
-  "remaining_metadata": [
-    "members exact model identifiers"
-  ]
+  "remaining_metadata": []
 }
