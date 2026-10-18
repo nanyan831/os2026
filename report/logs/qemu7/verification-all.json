@@ -1,0 +1,130 @@
+{
+  "source_audit": {
+    "best_fit_fixed_tests_sha256": "b6c6f8cd0608f21e2710f19ce23847f74c36b68d67dea90e8eef9faacdc9022a",
+    "injection_source_clean": true
+  },
+  "stage": "all",
+  "qemu": {
+    "path": "/opt/qemu-7.0.0/bin/qemu-system-riscv64",
+    "version": "QEMU emulator version 7.0.0"
+  },
+  "results": [
+    {
+      "name": "boot-first_fit-64m",
+      "passed": true,
+      "free_pages": 15704,
+      "log": "boot-first_fit-64m.log",
+      "required_markers": [
+        "memory management: default_pmm_manager",
+        "check_alloc_page() succeeded!",
+        "satp physical address:",
+        "[First-Fit regression] tail insertion/coalescing: PASS"
+      ]
+    },
+    {
+      "name": "boot-first_fit-128m",
+      "passed": true,
+      "free_pages": 31928,
+      "log": "boot-first_fit-128m.log",
+      "required_markers": [
+        "memory management: default_pmm_manager",
+        "check_alloc_page() succeeded!",
+        "satp physical address:",
+        "[First-Fit regression] tail insertion/coalescing: PASS"
+      ]
+    },
+    {
+      "name": "boot-best_fit-64m",
+      "passed": true,
+      "free_pages": 15704,
+      "log": "boot-best_fit-64m.log",
+      "required_markers": [
+        "memory management: best_fit_pmm_manager",
+        "check_alloc_page() succeeded!",
+        "satp physical address:"
+      ]
+    },
+    {
+      "name": "boot-best_fit-128m",
+      "passed": true,
+      "free_pages": 31928,
+      "log": "boot-best_fit-128m.log",
+      "required_markers": [
+        "memory management: best_fit_pmm_manager",
+        "check_alloc_page() succeeded!",
+        "satp physical address:"
+      ]
+    },
+    {
+      "name": "boot-best_fit-256m-capped",
+      "passed": true,
+      "free_pages": 31928,
+      "log": "boot-best_fit-256m-capped.log",
+      "required_markers": [
+        "managed: [0x0000000080000000, 0x0000000088000000)",
+        "check_alloc_page() succeeded!"
+      ]
+    },
+    {
+      "name": "best-fit-test",
+      "passed": true,
+      "free_pages": 31928,
+      "log": "best-fit-test.log",
+      "required_markers": [
+        "grading: 6 / 6 points",
+        "check_alloc_page() succeeded!",
+        "satp physical address:"
+      ]
+    },
+    {
+      "name": "official-grade",
+      "passed": true,
+      "score": "20/20",
+      "log": "official-grade.log"
+    },
+    {
+      "name": "boot-buddy-64m",
+      "passed": true,
+      "free_pages": 15576,
+      "log": "boot-buddy-64m.log",
+      "required_markers": [
+        "[Buddy] ALL TESTS PASSED",
+        "check_alloc_page() succeeded!",
+        "satp physical address:"
+      ]
+    },
+    {
+      "name": "boot-buddy-128m",
+      "passed": true,
+      "free_pages": 31800,
+      "log": "boot-buddy-128m.log",
+      "required_markers": [
+        "[Buddy] ALL TESTS PASSED",
+        "check_alloc_page() succeeded!",
+        "satp physical address:"
+      ]
+    },
+    {
+      "name": "boot-slub-best_fit",
+      "passed": true,
+      "free_pages": 31926,
+      "log": "boot-slub-best_fit.log",
+      "required_markers": [
+        "[SLUB] ALL TESTS PASSED",
+        "slub physical pages in use: 0",
+        "check_alloc_page() succeeded!"
+      ]
+    },
+    {
+      "name": "boot-slub-buddy",
+      "passed": true,
+      "free_pages": 31798,
+      "log": "boot-slub-buddy.log",
+      "required_markers": [
+        "[SLUB] ALL TESTS PASSED",
+        "slub physical pages in use: 0",
+        "check_alloc_page() succeeded!"
+      ]
+    }
+  ]
+}

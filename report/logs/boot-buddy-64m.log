@@ -1,0 +1,68 @@
+$ qemu-system-riscv64 -machine virt -nographic -bios default -m 64M -kernel bin/ucore.img
+
+OpenSBI v0.9
+   ____                    _____ ____ _____
+  / __ \                  / ____|  _ \_   _|
+ | |  | |_ __   ___ _ __ | (___ | |_) || |
+ | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+ | |__| | |_) |  __/ | | |____) | |_) || |_
+  \____/| .__/ \___|_| |_|_____/|____/_____|
+        | |
+        |_|
+
+Platform Name             : riscv-virtio,qemu
+Platform Features         : timer,mfdeleg
+Platform HART Count       : 1
+Firmware Base             : 0x80000000
+Firmware Size             : 100 KB
+Runtime SBI Version       : 0.2
+
+Domain0 Name              : root
+Domain0 Boot HART         : 0
+Domain0 HARTs             : 0*
+Domain0 Region00          : 0x0000000080000000-0x000000008001ffff ()
+Domain0 Region01          : 0x0000000000000000-0xffffffffffffffff (R,W,X)
+Domain0 Next Address      : 0x0000000080200000
+Domain0 Next Arg1         : 0x0000000083000000
+Domain0 Next Mode         : S-mode
+Domain0 SysReset          : yes
+
+Boot HART ID              : 0
+Boot HART Domain          : root
+Boot HART ISA             : rv64imafdcsu
+Boot HART Features        : scounteren,mcounteren,time
+Boot HART PMP Count       : 16
+Boot HART PMP Granularity : 4
+Boot HART PMP Address Bits: 54
+Boot HART MHPM Count      : 0
+Boot HART MHPM Count      : 0
+Boot HART MIDELEG         : 0x0000000000000222
+Boot HART MEDELEG         : 0x000000000000b109
+DTB Init
+HartID: 0
+DTB Address: 0x83000000
+Physical Memory from DTB:
+  Base: 0x0000000080000000
+  Size: 0x0000000004000000 (64 MB)
+  End:  0x0000000083ffffff
+DTB init completed
+(THU.CST) os is loading ...
+Special kernel symbols:
+  entry  0xffffffffc02000d8 (virtual)
+  etext  0xffffffffc0201d76 (virtual)
+  edata  0xffffffffc0207010 (virtual)
+  end    0xffffffffc02871b0 (virtual)
+Kernel executable memory footprint: 541KB
+memory management: buddy_pmm_manager
+physical memory map:
+  memory: 0x0000000004000000, [0x0000000080000000, 0x0000000083ffffff].
+  managed: [0x0000000080000000, 0x0000000084000000), descriptors=16384 x 40 bytes
+  descriptors PA: [0x0000000080288000, 0x0000000080328000)
+  free PA: [0x0000000080328000, 0x0000000084000000), pages=15576
+[Buddy 1] rounding/alignment/data/failure: PASS
+[Buddy 2] exhaustion/non-buddies/recursive merge: PASS (15576 pages)
+[Buddy 3] 1000 deterministic mixed operations: PASS
+[Buddy] ALL TESTS PASSED; free pages restored: 15576
+check_alloc_page() succeeded!
+satp virtual address: 0xffffffffc0205000
+satp physical address: 0x0qemu-system-riscv64: terminating on signal 15 from pid 417 (python3)

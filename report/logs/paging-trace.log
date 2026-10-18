@@ -1,0 +1,33 @@
+The target architecture is set to "riscv:rv64".
+0x0000000000001000 in ?? ()
+Breakpoint 1 at 0x80200034
+
+Breakpoint 1, 0x0000000080200034 in ?? ()
+BEFORE SATP
+pc             0x80200034	0x80200034
+satp           0x0	0
+=> 0x80200034:	csrw	satp,t0
+   0x80200038:	sfence.vma
+   0x8020003c:	lui	sp,0xc0205
+0x0000000080200038 in ?? ()
+AFTER SATP
+pc             0x80200038	0x80200038
+satp           0x8000000000080205	-9223372036854251003
+0x000000008020003c in ?? ()
+NEXT INSTRUCTION
+pc             0x8020003c	0x8020003c
+satp           0x8000000000080205	-9223372036854251003
+scause         0x0	0
+sepc           0x0	0
+stval          0x0	0
+Breakpoint 2 at 0xffffffffc02000d8: file kern/init/init.c, line 30.
+
+Breakpoint 2, kern_init () at kern/init/init.c:30
+30	    memset(edata, 0, end - edata);
+HIGH KERNEL ENTRY
+pc             0xffffffffc02000d8	0xffffffffc02000d8 <kern_init>
+sp             0xffffffffc0205000	0xffffffffc0205000
+satp           0x8000000000080205	-9223372036854251003
+0xffffffffc0205010:	0x00000000200000cf
+0xffffffffc0205ff8:	0x00000000200000cf
+[Inferior 1 (process 1) detached]

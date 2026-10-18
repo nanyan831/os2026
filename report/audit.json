@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-18",
+  "fixed_tests": [
+    {
+      "path": "kern/mm/best_fit_pmm.c",
+      "section": "best-fit-checks",
+      "sha256": "b6c6f8cd0608f21e2710f19ce23847f74c36b68d67dea90e8eef9faacdc9022a",
+      "unchanged": true
+    },
+    {
+      "path": "kern/mm/default_pmm.c",
+      "section": "first-fit-checks",
+      "sha256": "cf15bf0e63817db030d1c35d3bbf357a49ff3dbfdc5cc19f3efe4e2c93b9356b",
+      "unchanged": true
+    },
+    {
+      "path": "tools/test_lab2.c",
+      "section": "whole-file",
+      "sha256": "6feb75f20361d95436856e525af80bef0c55b300391cda3a6deaeda53a0f118d",
+      "unchanged": true
+    },
+    {
+      "path": "tools/test_lab2.h",
+      "section": "whole-file",
+      "sha256": "9caead317ad13c5cdd143abbc3f250c9b8f284125c4ba17a1e4f479b8d9f444c",
+      "unchanged": true
+    },
+    {
+      "path": "tools/inject.py",
+      "section": "whole-file",
+      "sha256": "d5ffc8179275979f702dcaa29779bc5cddf5a82b5ca0435d9a4732c5447d0f35",
+      "unchanged": true
+    }
+  ],
+  "prompts": 10,
+  "template_sections": 6,
+  "images": [
+    {
+      "path": "report/images/01-matrix.png",
+      "width": 1774,
+      "height": 564,
+      "sha256": "22e491ce5d391979b26f861396fc407ae41cecd9e07e272852ca8fc5bfeee68c"
+    },
+    {
+      "path": "report/images/02-boot.png",
+      "width": 1774,
+      "height": 1444,
+      "sha256": "2911345393d64239a05e532254abfbbe3b665bf90d4ffde1b0eb0c19764a74f0"
+    },
+    {
+      "path": "report/images/03-grade.png",
+      "width": 1774,
+      "height": 804,
+      "sha256": "1549a6845fa1460600f817b4a6904019bebcf57882bfea7719546d574de26b05"
+    },
+    {
+      "path": "report/images/04-buddy.png",
+      "width": 1774,
+      "height": 644,
+      "sha256": "dbaec1d2416aeec9e29b5772f4f5479c6d762fee960662ee685cffa0c0c5f508"
+    },
+    {
+      "path": "report/images/05-slub.png",
+      "width": 1774,
+      "height": 804,
+      "sha256": "9b7f215fc5f0507608d4b217f9858fef8a923affe71377d1fd962aff8550fa69"
+    },
+    {
+      "path": "report/images/06-guest-paging.png",
+      "width": 1774,
+      "height": 1444,
+      "sha256": "f113be4194abec0b4560ed64b0d172de80c73a069628f0be13fe630837f7c7c0"
+    },
+    {
+      "path": "report/images/07-host-qemu.png",
+      "width": 1774,
+      "height": 564,
+      "sha256": "b682eebed5c78405e962f3841d59df70470ba71cbd5bb2da35ec4f2859295566"
+    }
+  ],
+  "matrices": [
+    {
+      "path": "verification-all.json",
+      "passed": 11
+    },
+    {
+      "path": "qemu7/verification-all.json",
+      "passed": 11
+    },
+    {
+      "path": "verification-qemu.json",
+      "passed": 3
+    }
+  ],
+  "kernel": "ELF64 RISC-V",
+  "original_template_files_unchanged": 39,
+  "grading_injection_clean": true,
+  "report_links_valid": true,
+  "source_whitespace": {
+    "new_issues": 0,
+    "inherited_template_findings": 45,
+    "raw_tool_logs_preserved": true
+  },
+  "remaining_metadata": [
+    "Lab2 final group responsibilities",
+    "members AI tools and exact model identifiers"
+  ]
+}

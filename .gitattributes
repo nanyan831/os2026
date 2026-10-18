@@ -7,4 +7,9 @@
 *.ld text eol=lf
 Makefile text eol=lf
 *.md text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.log text eol=lf
+*.gdb text eol=lf
+gdbinit text eol=lf
 *.png binary

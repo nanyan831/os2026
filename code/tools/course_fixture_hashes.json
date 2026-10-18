@@ -1,0 +1,27 @@
+[
+  {
+    "path": "kern/mm/best_fit_pmm.c",
+    "section": "best-fit-checks",
+    "sha256": "b6c6f8cd0608f21e2710f19ce23847f74c36b68d67dea90e8eef9faacdc9022a"
+  },
+  {
+    "path": "kern/mm/default_pmm.c",
+    "section": "first-fit-checks",
+    "sha256": "cf15bf0e63817db030d1c35d3bbf357a49ff3dbfdc5cc19f3efe4e2c93b9356b"
+  },
+  {
+    "path": "tools/test_lab2.c",
+    "section": "whole-file",
+    "sha256": "6feb75f20361d95436856e525af80bef0c55b300391cda3a6deaeda53a0f118d"
+  },
+  {
+    "path": "tools/test_lab2.h",
+    "section": "whole-file",
+    "sha256": "9caead317ad13c5cdd143abbc3f250c9b8f284125c4ba17a1e4f479b8d9f444c"
+  },
+  {
+    "path": "tools/inject.py",
+    "section": "whole-file",
+    "sha256": "d5ffc8179275979f702dcaa29779bc5cddf5a82b5ca0435d9a4732c5447d0f35"
+  }
+]

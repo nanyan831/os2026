@@ -1,9 +1,9 @@
 # 本地实验文件由各实验分支管理
 /lab1/
-/code/
-/report/
 **/bin/
 **/obj/
+**/__pycache__/
+*.pyc
 *.swp
 *.swo
 *~

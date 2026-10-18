@@ -1,0 +1,31 @@
+Breakpoint 1 at 0x312221: file /home/compiler/oslab2/qemu-4.1.1/accel/tcg/cputlb.c, line 1030.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+[New Thread 0x7f8ee8d89640 (LWP 2593)]
+[New Thread 0x7f8ee1fff640 (LWP 2594)]
+
+OpenSBI v0.4 (Jul  2 2019 11:53:53)
+   ____                    _____ ____ _____
+  / __ \                  / ____|  _ \_   _|
+ | |  | |_ __   ___ _ __ | (___ | |_) || |
+ | |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+ | |__| | |_) |  __/ | | |____) | |_) || |_
+  \____/| .__/ \___|_| |_|_____/|____/_____|
+        | |
+        |_|
+
+Platform Name          : QEMU Virt Machine
+Platform HART Features : RV64ACDFIMSU
+Platform Max HARTs     : 8
+Current Hart           : 0
+Firmware Base          : 0x80000000
+Firmware Size          : 112 KB
+Runtime SBI Version    : 0.1
+
+PMP0: 0x0000000080000000-0x000000008001ffff (A)
+PMP1: 0x0000000000000000-0xffffffffffffffff (A,R,W,X)
+[Switching to Thread 0x7f8ee1fff640 (LWP 2594)]
+CODE_TLB addr=0xffffffffc02000d8 tag=0x80200000 index=0 hit=0 satp=0x8000000000080205
+CODE_TLB addr=0xffffffffc02000d8 tag=0xffffffffc0200000 index=0 hit=1 satp=0x8000000000080205
+CODE_TLB addr=0xffffffffc02000d8 tag=0xffffffffc0200000 index=0 hit=1 satp=0x8000000000080205
+CODE_TLB addr=0xffffffffc02000dc tag=0xffffffffc0200000 index=0 hit=1 satp=0x8000000000080205

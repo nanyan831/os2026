@@ -1,0 +1,30 @@
+{
+  "qemu_source": "/home/compiler/oslab2/qemu-4.1.1",
+  "qemu_version": "4.1.1",
+  "results": [
+    {
+      "name": "data-walk",
+      "passed": true,
+      "va": "0xffffffffc0207000",
+      "pa": "0x80207000",
+      "leaf": "root (1 GiB)",
+      "log": "qemu-data-walk.log"
+    },
+    {
+      "name": "bare",
+      "passed": true,
+      "log": "qemu-bare.log"
+    },
+    {
+      "name": "code-tlb",
+      "passed": true,
+      "observations": [
+        "CODE_TLB addr=0xffffffffc02000d8 tag=0x80200000 index=0 hit=0 satp=0x8000000000080205",
+        "CODE_TLB addr=0xffffffffc02000d8 tag=0xffffffffc0200000 index=0 hit=1 satp=0x8000000000080205",
+        "CODE_TLB addr=0xffffffffc02000d8 tag=0xffffffffc0200000 index=0 hit=1 satp=0x8000000000080205",
+        "CODE_TLB addr=0xffffffffc02000dc tag=0xffffffffc0200000 index=0 hit=1 satp=0x8000000000080205"
+      ],
+      "log": "qemu-code-tlb.log"
+    }
+  ]
+}

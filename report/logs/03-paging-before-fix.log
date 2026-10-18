@@ -1,0 +1,18 @@
+The target architecture is set to "riscv:rv64".
+0x0000000000001000 in ?? ()
+Breakpoint 1 at 0x80200034
+
+Breakpoint 1, 0x0000000080200034 in ?? ()
+BEFORE SATP
+pc             0x80200034	0x80200034
+satp           0x0	0
+=> 0x80200034:	csrw	satp,t0
+   0x80200038:	sfence.vma
+   0x8020003c:	lui	sp,0xc0205
+0x0000000080200038 in ?? ()
+AFTER SATP
+pc             0x80200038	0x80200038
+satp           0x8000000000080205	-9223372036854251003
+/mnt/d/缪臻/日常应用/南开大学/大三上/操作系统/labcodes-lab2/report/logs/paging.gdb:14: Error in sourced command file:
+Cannot access memory at address 0x80200038
+[Inferior 1 (process 1) detached]

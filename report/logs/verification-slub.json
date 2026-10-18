@@ -1,0 +1,31 @@
+{
+  "source_audit": {
+    "best_fit_fixed_tests_sha256": "b6c6f8cd0608f21e2710f19ce23847f74c36b68d67dea90e8eef9faacdc9022a",
+    "injection_source_clean": true
+  },
+  "stage": "slub",
+  "results": [
+    {
+      "name": "boot-slub-best_fit",
+      "passed": true,
+      "free_pages": 31927,
+      "log": "boot-slub-best_fit.log",
+      "required_markers": [
+        "[SLUB] ALL TESTS PASSED",
+        "slub physical pages in use: 0",
+        "check_alloc_page() succeeded!"
+      ]
+    },
+    {
+      "name": "boot-slub-buddy",
+      "passed": true,
+      "free_pages": 31799,
+      "log": "boot-slub-buddy.log",
+      "required_markers": [
+        "[SLUB] ALL TESTS PASSED",
+        "slub physical pages in use: 0",
+        "check_alloc_page() succeeded!"
+      ]
+    }
+  ]
+}

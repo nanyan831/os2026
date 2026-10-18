@@ -1,0 +1,123 @@
+{
+  "Makefile": {
+    "trailing_lines": [
+      "\t$(V)cscope -bq ",
+      "CFLAGS  := -mcmodel=medany -std=gnu99 -Wno-unused -Werror "
+    ],
+    "blank_at_eof": false
+  },
+  "kern/debug/assert.h": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "kern/debug/panic.c": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "kern/driver/console.h": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "kern/driver/dtb.c": {
+    "trailing_lines": [
+      "    ",
+      "        ",
+      "            ",
+      "                ",
+      "    return ((uint64_t)fdt32_to_cpu(x & 0xffffffff) << 32) | ",
+      "    return ((x & 0xff) << 24) | (((x >> 8) & 0xff) << 16) | ",
+      "static int extract_memory_info(uintptr_t dtb_vaddr, const struct fdt_header *header, "
+    ],
+    "blank_at_eof": false
+  },
+  "kern/init/entry.S": {
+    "trailing_lines": [
+      "    "
+    ],
+    "blank_at_eof": false
+  },
+  "kern/init/init.c": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "kern/libs/stdio.c": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "kern/mm/best_fit_pmm.h": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "kern/mm/default_pmm.c": {
+    "trailing_lines": [
+      "// LAB2: below code is used to check the first fit allocation algorithm (your EXERCISE 1) "
+    ],
+    "blank_at_eof": false
+  },
+  "kern/mm/default_pmm.h": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "kern/mm/memlayout.h": {
+    "trailing_lines": [
+      "#define PG_reserved                 0       // if this bit=1: the Page is reserved for kernel, cannot be used in alloc/free_pages; otherwise, this bit=0 "
+    ],
+    "blank_at_eof": false
+  },
+  "kern/mm/mmu.h": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "libs/defs.h": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "libs/error.h": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "libs/list.h": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "libs/printfmt.c": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "libs/readline.c": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "libs/sbi.c": {
+    "trailing_lines": [
+      "uint64_t SBI_CONSOLE_PUTCHAR = 1; "
+    ],
+    "blank_at_eof": false
+  },
+  "libs/stdarg.h": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "libs/stdio.h": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "libs/string.c": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "libs/string.h": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  },
+  "tools/boot.ld": {
+    "trailing_lines": [
+      "    "
+    ],
+    "blank_at_eof": false
+  },
+  "tools/function.mk": {
+    "trailing_lines": [],
+    "blank_at_eof": true
+  }
+}
