@@ -1,0 +1,19 @@
+ffffffffc0201b62 <lab3_break16_site>:
+ffffffffc0201b62:	9002                	ebreak
+ffffffffc0201b64:	00002517          	auipc	a0,0x2
+ffffffffc0201b68:	c8c50513          	addi	a0,a0,-884 # ffffffffc02037f0 <best_fit_pmm_manager+0x410>
+
+ffffffffc0201b70 <lab3_break32_site>:
+ffffffffc0201b70:	00100073          	ebreak
+ffffffffc0201b74:	00002517          	auipc	a0,0x2
+ffffffffc0201b78:	ca450513          	addi	a0,a0,-860 # ffffffffc0203818 <best_fit_pmm_manager+0x438>
+
+ffffffffc0201b80 <lab3_illegal16_site>:
+ffffffffc0201b80:	0000                	unimp
+ffffffffc0201b82:	00002517          	auipc	a0,0x2
+ffffffffc0201b86:	cbe50513          	addi	a0,a0,-834 # ffffffffc0203840 <best_fit_pmm_manager+0x460>
+
+ffffffffc0201b8e <lab3_illegal32_site>:
+ffffffffc0201b8e:	0000007b          	0x7b
+ffffffffc0201b92:	00002517          	auipc	a0,0x2
+ffffffffc0201b96:	cce50513          	addi	a0,a0,-818 # ffffffffc0203860 <best_fit_pmm_manager+0x480>

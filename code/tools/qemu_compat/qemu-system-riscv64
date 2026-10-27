@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+"""Translate the course's raw loader argument into an OpenSBI kernel payload.
+
+The real QEMU executes the unchanged guest and tests. No serial text or exit
+status is synthesized. Only the exact lab image loader at 0x80200000 changes.
+"""
+import os
+from pathlib import Path
+import shutil
+import sys
+
+wrapper_dir = Path(__file__).resolve().parent
+search = os.pathsep.join(p for p in os.environ.get("PATH", "").split(os.pathsep)
+                         if Path(p).resolve() != wrapper_dir)
+requested = os.environ.get("LAB3_QEMU_REAL", "qemu-system-riscv64")
+real = shutil.which(requested, path=search)
+if not real or Path(real).resolve() == Path(__file__).resolve():
+    sys.exit("lab3 QEMU adapter: real QEMU executable not found")
+
+args = sys.argv[1:]
+forward = []
+i = 0
+while i < len(args):
+    if (args[i] == "-device" and i + 1 < len(args)
+            and args[i + 1].startswith("loader,file=")
+            and args[i + 1].endswith(",addr=0x80200000")):
+        image = args[i + 1][len("loader,file="):-len(",addr=0x80200000")]
+        forward.extend(["-kernel", image])
+        i += 2
+    else:
+        forward.append(args[i])
+        i += 1
+os.execv(real, [real, *forward])

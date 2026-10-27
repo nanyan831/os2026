@@ -7,4 +7,9 @@
 *.ld text eol=lf
 Makefile text eol=lf
 *.md text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+/code/tools/qemu_compat/qemu-system-riscv64 text eol=lf
+/code/tools/gdbinit text eol=lf
+/report/logs/** -text
 *.png binary

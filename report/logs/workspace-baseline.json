@@ -1,0 +1,1842 @@
+[
+  {
+    "Tree": "labcodes",
+    "Path": ".gitattributes",
+    "SHA256": "037DD1D4DBBEF58DB6DE7445E5083C1DE99456B7AEAFDD403F62B99905A394EC"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": ".gitignore",
+    "SHA256": "83AC9ED332F03DF7AA1D6B60CD4622A3CF0E68D4B63EA1ECAAEE020959E1632A"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "README.md",
+    "SHA256": "118CC3F185807BB72D5637B19860E82090BFA6F3D3A4B53E4420CE889CC2CFEE"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\Makefile",
+    "SHA256": "2C7988AAD918AD9FC7BA9553D1D5DF1BD39AE289CD5654A21DEF08E73D3FEFFE"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\kern\\driver\\console.c",
+    "SHA256": "C0A2A757B46E9B95DA06A35EAF0C6F4A9433F16AD860479A26D675EC7736C518"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\kern\\driver\\console.h",
+    "SHA256": "58F035E47D188920844028469057692C84D96C28EC632D2F60750692B712CE36"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\kern\\init\\entry.S",
+    "SHA256": "B3CCBB77DE6213FD365379134D4B33E4467CE449BB0A704608BAB3A4FBF27E2F"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\kern\\init\\init.c",
+    "SHA256": "BFEF6E88AEA39860F09FB33B5D83226962FF064E3A560042BCD6605178CEC932"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\kern\\libs\\stdio.c",
+    "SHA256": "4C3E35B6CC4E0B011F8AD929770712AC6F9FC432367623D15A384A93CBC6DA60"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\kern\\mm\\memlayout.h",
+    "SHA256": "F854EEFF30B183EA98E61E40EC53E0B386DA79E5CEC092D5ACBFEE7033D2DF34"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\kern\\mm\\mmu.h",
+    "SHA256": "7A4EA43E66686AD9F92DDC744363B542EF6242943C39D338192F2D636702A941"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\libs\\defs.h",
+    "SHA256": "2B58EE360A3E3C5D770F4FE9D258A395393FD7F0206E5111A9BACCF9765F7D5E"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\libs\\error.h",
+    "SHA256": "F12AE00574C6D0188FD1821FFE25ED46C2922400E672F89C7EED09B5401A9D8B"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\libs\\printfmt.c",
+    "SHA256": "BAA77C534C9BEF336DAAEA3B594F23877A5FE80F15B350141AF4510DDDD762B9"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\libs\\readline.c",
+    "SHA256": "DF61A98A72F3DDAD1F88025CD8C1797A92335153DBAC1CD424C07B0803CD4F34"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\libs\\riscv.h",
+    "SHA256": "9000F516DB3A43DB091D26B6FBFF8F212BDCFFCF1CCAEC942389FA133773E9F0"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\libs\\sbi.c",
+    "SHA256": "331A8DBB956D44B3E2FAD4A1BE5BA704F53FA4B8BE3205B7CA7F1AF3A405141B"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\libs\\sbi.h",
+    "SHA256": "4F9015448950E6FA38F12A68AA566D26341A44A594FCF7B180D6A4B6DEB9FE12"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\libs\\stdarg.h",
+    "SHA256": "AB36F91357CC131031ADA91E15537448E0835BC5B35757FD3E582844D88B089E"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\libs\\stdio.h",
+    "SHA256": "B29A67429E28E7461DCDF2CBF263A863F17AA101D65B0239C81D6012BFF70A0A"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\libs\\string.c",
+    "SHA256": "2AF621B142CD2AA687F5DB921099B3232C149BEC19D16669B70CAF54ADD0B187"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\libs\\string.h",
+    "SHA256": "DE9C42C24C303284BF942D26DC472B9D879D6A18091F2D16CE37C3A33C800E52"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\tools\\capture_ubuntu_screenshots.sh",
+    "SHA256": "882FBA93DE8D9BF38B01AA16A2958C01C3654080CE8A2CB524BD910C29C762B7"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\tools\\function.mk",
+    "SHA256": "B1B6783A547B65979AB7818213FFE675D241721D6630877D281C58CCE63DF696"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\tools\\kernel.ld",
+    "SHA256": "2FD998062CE93AD605B37B6CC276F357715AF73B6BB65F8B78029573DC3244F2"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "code\\tools\\trace_boot.sh",
+    "SHA256": "659731DFED25B3EE5008B0FE9C6B751DC5326FB384BC3AB3A52782784C08C1EC"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\检查准备.md",
+    "SHA256": "FAA07CCAF5F6E4BC9FF5B31E44EC843158048E489DC05553F54A6DD6F5BD254E"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\images\\check_readiness_2026-10-07.txt",
+    "SHA256": "1055845F046F38C94F5D2019AEE3BEAB082A0169C16FEBD66BD659DF32303A11"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\images\\gdb_trace_actual.png",
+    "SHA256": "5568B778C0A1C17A5C53268FFD5D079D6482021A80F8E0F37CD2DE505D2EAA86"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\images\\qemu_result_actual.png",
+    "SHA256": "572EEA1163F02009F745053FDD721CD13D78036106B0203D6303FFD983C3DA19"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\tools\\check_readiness.sh",
+    "SHA256": "66A94225BFA65C390EB038BBFCB52CBBBEF7BB5E9D356BB1A15203985FB13B3D"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\00_现场复现与答辩指南.md",
+    "SHA256": "850CF9485D4A257A13125446A2392FE9EEACC7CEAB6852FDDED7CF7C41C2260A"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\01_核心源码逐行注释.md",
+    "SHA256": "E88013BEC611312F08F70087E222519C6C26F5F84BD523C7D00818AB008BEB74"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\02_构建与调试脚本逐行注释.md",
+    "SHA256": "3F4E31FD7267E6DA508F880DF0711B4DEAAECBFA5623954996663EF364829750"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\03_格式化输出与基础定义逐行注释.md",
+    "SHA256": "5C4A67A4C8A19F55B1ADD60427A115D0F47054503EC1E5B64CBA908DE5C56B66"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\04_机器指令与答辩追问.md",
+    "SHA256": "0873C50F6C3CD1A76012E41B9B3BB151DFA7168D534E74EA77C3DFDD812A2167"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\05_检查问题专项答辩.md",
+    "SHA256": "81C26772A1EBA0A54D12EF5DBC1B3B4277370CCE6BDA7164A9E7F92E10991541"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\06_现场演示清单.md",
+    "SHA256": "BF5C6E377AB6948DF334FA01D0238F6A508834CD21CC1691525B49FDAC845093"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项验证.sh",
+    "SHA256": "1C553254FD518FD3AC1BED6F8DD4A2B0EE5CE1ACF1DBF692793561FC2327969C"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\生成逐行讲解.py",
+    "SHA256": "AB16D568CB813989B14B0111F49A0F6CE746A2F304B174B390B15479C26F38B0"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\为全部源码添加注释.py",
+    "SHA256": "4A2627C006BD4B7B334A0BF9CABC40EFE7547F9335DA0797E5F9A35FF6C34212"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\现场演示逐步.gdb",
+    "SHA256": "B552F7CC707302C3C93F6F3F3ED0E82863A92BC34FDDEC40086B29BBA69AD897"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\现场验证.gdb",
+    "SHA256": "892C0334F935B377BCF32655DF9191EB5B6CF2CE8DEC9085889EE30BD81E6EEB"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\验证复现.sh",
+    "SHA256": "A74503422CD28B2AA255FF8568443F6160B48E4CAA3E0ED5F3F5BD0D4DB009BC"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\验证起始代码.sh",
+    "SHA256": "BCA289CE368AEC278F2762200AF68982A6F3C7922D76B6D0607790CC56FD6C5F"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\验证注释版.sh",
+    "SHA256": "AEF97ECD3FD0D57ABD7C9F5DB7FFB657F0C9F31E34910570FF4CB1DFBC613554"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\源码注释清单.json",
+    "SHA256": "90A8E4BEBB5323E6BB8417D80C553569A6DEA4CEEE2CFBEF31E7FE361636BE42"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\整理行尾注释.py",
+    "SHA256": "860287DBBA28A0783B5B5104B98D78882858924113C987EB6FDE84FFB31015B2"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\转换为同行注释.py",
+    "SHA256": "208AC5D5D5A088367E58EFA9FD5CCCF405F8B7B52C29B8458E8F08F31104498A"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\csr_case.c",
+    "SHA256": "8325FC9DBB39876FEBD11BAC864A6905230C2E7596E785F47CEDF0C73022156D"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\gdb指导页面.html",
+    "SHA256": "400D6897BEA165B8528896EA1024A4606D8B90D09236EFD8ABFB1247B1823813"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\gdb指导页面.txt",
+    "SHA256": "653A87C6166319FF9D006974D69A723912284CE22924C57F226A349DAC98E0CC"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\lab1_2_1_exercise.html",
+    "SHA256": "F06BD988BB09922B885B8CDE7F56C516D82530D0E73CC9C014389D341712D1FF"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\lab1_2_1_exercise.txt",
+    "SHA256": "835DC6DE52802BE996B6BBBD7149AC975E0678724D38510111554C888CA5EC07"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\lab1_3_1_layout.html",
+    "SHA256": "A1450F7287EDA6CFCE1CF3D37ED8C01C0FCF443AD89156253058434DE296A550"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\lab1_3_1_layout.txt",
+    "SHA256": "8C397ECC2FD0FC1C2BA190784703BC68808FA22C91CB6BE59F20FD94654F2AA1"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\lab1_3_3_sbi_io.html",
+    "SHA256": "D7E6BF2380AFB4CE161955B6FBB6DDA9CDE874637C9C5BC0A311BF659564DC40"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\lab1_3_3_sbi_io.txt",
+    "SHA256": "3857F00070D6578BE09896E09EAE2803631587350C74FDE0434663CF9C993DB5"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\lab1_3_4_makeit.html",
+    "SHA256": "C3AEEA3CD28E56CF91D5E47E51E34FD145E802823A061844181217467F865984"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\lab1_3_4_makeit.txt",
+    "SHA256": "E66F9637152DF2A8C83338F344D084FACAB03EBB676A9E6B603DC50391C910D0"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\lab1_3_booting.html",
+    "SHA256": "475C29A7023F9492512DB41478DA2FFD0AB5FB5003B22D97D670C991E644BA69"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\lab1_3_booting.txt",
+    "SHA256": "7882662A9BBC6091F2A9FF91FD257D243823B224890DFD8EADC145ACD6C8E984"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\Notion导出\\lab1_defense_materials_20261012.zip",
+    "SHA256": "A035B6F8E0D8F83E071E7A5CFF0370E4F1248689943E4F04132B744A8F295D7E"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\Makefile",
+    "SHA256": "DC8126168ACBFDC91D4C7D5732AC6815484C4328A7E12EB75E46281314E0FA0D"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\kern\\driver\\console.c",
+    "SHA256": "51DC1C415BAD25CBBCD570E22C7A7F35D0CD3AD953CEBD491B8060B03EA42184"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\kern\\driver\\console.h",
+    "SHA256": "3B4A2DF8324B67631F46AC50135D193E8988759624FD1AEC5D5D813D57618EB9"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\kern\\init\\entry.S",
+    "SHA256": "A831398604DE4BB989E9AC7E0F5CEE020F268B398753ADB067736EF54BA20701"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\kern\\init\\init.c",
+    "SHA256": "4C7D168DA111900BDF39FBA6AD0BFDD2CA31E250FFDFF760D9BB75DE8EC56586"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\kern\\libs\\stdio.c",
+    "SHA256": "FACC6D99E869F9614503C5B57F7CA3B5527AF8B3A258AFB12BFE505366A74BEB"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\kern\\mm\\memlayout.h",
+    "SHA256": "708598E4484220687555770DF7DC87E9BD4EEF26E01EB1610C9FDCB7EC019978"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\kern\\mm\\mmu.h",
+    "SHA256": "4D437FD04B8EDC3A819AFF0E62178BB3F18E4AF693725C853E9D44DD837CEFA4"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\libs\\defs.h",
+    "SHA256": "60637535DE56F0CBB1AEB9492A3AA0E58B291BC64739A39D10C523ECE8DCFD05"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\libs\\error.h",
+    "SHA256": "532AABBA7E63FF8C58399339FAA8D17B5E353E95A53BF9B5587DBF6B34E8760D"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\libs\\printfmt.c",
+    "SHA256": "9A170718E90A0A2388762739CE2159C2C1FAD30DB4AEEA70986256925DD11EEE"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\libs\\readline.c",
+    "SHA256": "2958B9798DC34235EB9B5A93C7ED447E1050E1B3323E37F7B42CB525574161E6"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\libs\\riscv.h",
+    "SHA256": "B1D8712E7040B3BA78D589392FC0F8C3EB53EB8E22A50420D6B80A0C3F893E5C"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\libs\\sbi.c",
+    "SHA256": "AFD127B37BB5821EF3CF78B783647CC1F62A9F39861C0249E5D6D66F143FC6C9"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\libs\\sbi.h",
+    "SHA256": "1CCF6C52D8DC7F0A417B202B245618DC7F66281DE3914F78D8B7A497202764AD"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\libs\\stdarg.h",
+    "SHA256": "BCDBC83C480044E03AA8D7374D4EBF32870F630A3ACEA325E1CA02EA14BB6F5E"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\libs\\stdio.h",
+    "SHA256": "88EE8A7607A437E87850243523127F77F802AD1D97B0E9FD9F45640FE174AE2A"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\libs\\string.c",
+    "SHA256": "63D163C185D6C447A0D236678EEA94F17181C39A3B1B99CF8435A9D61699F08B"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\libs\\string.h",
+    "SHA256": "5546815E0D0A122460F52036C972649A232306A85F3B995B592DB0964D4F2CFD"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\tools\\capture_ubuntu_screenshots.sh",
+    "SHA256": "344D64B7B65C58290BE1C78720AF4D3E45783A076E2B9BA014375A622A5A1C60"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\tools\\function.mk",
+    "SHA256": "2E3F4EDB42E8E15029E381FE695CF39064762D0A7CA4960ADE83D5A8DFE3D5BA"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\tools\\kernel.ld",
+    "SHA256": "1D303EA99CCF38E8E9D5A1CF5709E5683AFFF70E2BA9E9200AFB16411DCEB04E"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\分行注释版备份\\tools\\trace_boot.sh",
+    "SHA256": "62DFB96F5735EE3D5E953E94C4FF537B2FE0B7225C8239BDC897513F217CF8FD"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\Makefile",
+    "SHA256": "E91694656BE423A2C1405633CF7E3DB82EA0102121762C41D497E34F8E7AF2C8"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\kern\\driver\\console.c",
+    "SHA256": "D7CA78720834A50FE79748CA151EF148D2EF2F643CB63D9F456F36F1D42EA499"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\kern\\driver\\console.h",
+    "SHA256": "964C039C962830691C15DA313B6BE9139A3FBCA86512ADE5FD5BAE350BF5085B"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\kern\\init\\entry.S",
+    "SHA256": "E1707A0B6E83AE9E7D18D2D89841E393DD1D2F291349B8296C2E57E0C35C13CF"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\kern\\init\\init.c",
+    "SHA256": "7B712F772B9D7E40B8E64372072FA2BF8A9AA121717909282E642E6B936AA240"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\kern\\libs\\stdio.c",
+    "SHA256": "236EE222DDDBEFE23FF7067159391CAEBBF4BFCE6763C799446FBE223EB82B0C"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\kern\\mm\\memlayout.h",
+    "SHA256": "BAE388F919BA2E6CA85A96603ED1496207257A6F4384386B444323F91D1D5BD5"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\kern\\mm\\mmu.h",
+    "SHA256": "A4F27242694387BC3853149F23FADE5F100E7AF63920B620EF5A783F6BF409DE"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\libs\\defs.h",
+    "SHA256": "F3E2D5A5828612D90523F79D54F2DDD7033D5BB431B76D55ACFCC76CCD73FE61"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\libs\\error.h",
+    "SHA256": "5C04E0037EB524CC4E7EFDA0069AA52DCD37D09DC52ECBC02CEC7437D69752A6"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\libs\\printfmt.c",
+    "SHA256": "5E3AAC79068637EB02BD36E7DC85187E3B07D8ECF1ED0313E2D03BCD2301F2CD"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\libs\\readline.c",
+    "SHA256": "0B4969A96D11C4AD00A87317D59F4B22D61F400F15326B8A26CA02253F56EEEB"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\libs\\riscv.h",
+    "SHA256": "D3D3ACFB4BFCA4267705DC03FE9EB9600743DE446ADFBEE35F1A7FF79A81582D"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\libs\\sbi.c",
+    "SHA256": "C53F66AF3E197CBEC0A2B5DC81BB9B1E6DE4CD4A633E96F18CF8B820D84DFB0F"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\libs\\sbi.h",
+    "SHA256": "090F49D2579566BC27092FA9217E20A8435AFA8C586260A3E58A5515F86F999D"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\libs\\stdarg.h",
+    "SHA256": "DEEE724BE1034684E0E97026B674EBFB9B19BE4D0A285DA5626201BC16F20710"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\libs\\stdio.h",
+    "SHA256": "3A96EBC0BCE1A46824BAC9BE5F3F986A6F9D969C86F15BF16F26F5CADE6FA989"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\libs\\string.c",
+    "SHA256": "E09F5E8E02BD09723C9788A9B6D00E4AA363A2AE87B0EE1D9BF4659AE95B9954"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\libs\\string.h",
+    "SHA256": "47557A62A2B2F29639F48373BDB521A2CFDB6C1D4BEEDAD0E3E4792B824C8DD0"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\tools\\function.mk",
+    "SHA256": "46FAB30A764A277562F3BEBB6AC9CF4E11D6E1718E9698D363B78DCEFC8EFFC6"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\复现工作区\\tools\\kernel.ld",
+    "SHA256": "1620FACF88A1DBD61454003B88ABC30BB17CDC2DC496D27DECF6574E062940B7"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\实测日志\\构建.txt",
+    "SHA256": "B200755B6630644F78E845634F562A530DA76A2C657AD2D5BC8DCD075ACD10D2"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\实测日志\\环境.txt",
+    "SHA256": "21B60888BC9FD70EF59CEE896B74CB8D5B72267E088C5A4FFF71C55B27FD9D36"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\实测日志\\起始代码构建.txt",
+    "SHA256": "B200755B6630644F78E845634F562A530DA76A2C657AD2D5BC8DCD075ACD10D2"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\实测日志\\起始代码QEMU.txt",
+    "SHA256": "86C49791F7EB1F70E32E5D4A06103AB5536FC52A7F3851AF8B381877EDCDAB60"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\实测日志\\手工步骤批量核对.txt",
+    "SHA256": "3D0606E69D5E7263AEBD541D6D8BCF77E80EB5EF4F991A5D0FCDA1E834040350"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\实测日志\\原有启动跟踪.txt",
+    "SHA256": "49C94A9847674C978051CCE6C49D89421BDE8FB8F26F51A54E335BE5A3708754"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\实测日志\\ELF与反汇编.txt",
+    "SHA256": "7A1182B652803B1537998D2A5F2746A32EC6378F430BE332515CC1728E5D92E9"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\实测日志\\GDB对应QEMU.txt",
+    "SHA256": "B4ECB0E463DFF9092409E99BA8EA0497F83D9F424533D2A5B242A5BD86DDC807"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\实测日志\\QEMU启动.txt",
+    "SHA256": "5C5B18D84984BA912CB384478242A060205D296268A94DF9B5F3296B43ACC38E"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\工具链与架构.txt",
+    "SHA256": "05466FAD79B5D5B2D4BD802FFD732509E0ACD139DA51D1C87F8C04016CC6FBD9"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\关键符号.txt",
+    "SHA256": "5F3CBDF729A5CDF547628FA0EB1867557FEC7BA370B930B7474F31AB22FD5FF8"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\核对时间.txt",
+    "SHA256": "09A3DAF695F5B8BEBF681A04BD0574E99FA81542A07ABBE5AE2061C96B682ECE"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\环境.txt",
+    "SHA256": "D2A0FC89BB62332A42E4AB60F6BC98F4D95BCAB8208AD8499511EB4B3282F638"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\文件格式.txt",
+    "SHA256": "A9BA8885D7F868F3D223374123FF3A5A3484F5A731F1547B3E156772203ACD11"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\现场流程对应QEMU.txt",
+    "SHA256": "AEDF22139B52B58C05E25FFB6AB3257C12FC1CEF4666AA5276C521B35733917A"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\现场演示逐步.txt",
+    "SHA256": "661E06E07C7871D1BDA954EEA5DE40666E158A479A036E0C30E5FB0C09C7757B"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\csr_case.o",
+    "SHA256": "B47F9C4404FB944ADADD83C874A5C8E0D8B94263A5E4E7C40E05096A3F787B9C"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\CSR分类反汇编.txt",
+    "SHA256": "C2C0AC596AD856B715BE53433EBBEF0BCF9BDEC3284B10DF9E9F137783E8091A"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\ELF头.txt",
+    "SHA256": "9F52A51DA6FF45FA628C9EC4AB279509B1332C52B769C8D20D5B6C691F210B36"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\GDB启动跟踪.txt",
+    "SHA256": "95FCB545C6803F96C936E317DAAACE464CA164FCD23B53A3BAD10947B6DE96B8"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\KOBJS.txt",
+    "SHA256": "829AB3B957229D895BF9226AAF0523136913A18AF765326F14108BEA54E7809C"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\检查专项实测\\QEMU启动.txt",
+    "SHA256": "5D135834A61DF0EBEBAAE118C331DDB06C36DEABA3E4CB5CCA9C7AC99B2C9EF0"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\Makefile",
+    "SHA256": "D3E649CD78ADC6B232A5816C186543182A2821F4AC503A247C48ACAB2D8F48D4"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\kern\\driver\\console.c",
+    "SHA256": "CCC8AD8B2A359566895F42EC5F7A25CE547AE594A4281701B3AB66D48B76C503"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\kern\\driver\\console.h",
+    "SHA256": "0D1B4C3CEC6E990EA5C85E7AD0DB73F1BB8C1F3DEA723BAA1475FD5E145C284B"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\kern\\init\\entry.S",
+    "SHA256": "55DB76AF3C0111C9967E7D7EFD061C79FCCD00F04887E2176C87A29662394EE2"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\kern\\init\\init.c",
+    "SHA256": "147DB8F074D8E6EC4904CD49BBA110B74987C1FAFC36772A6C6DDEF3CC02FE31"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\kern\\libs\\stdio.c",
+    "SHA256": "E8CC91F7282504B624BEAE9074FFEBDDC02BD5B54E47738F85801AB8F8E58F28"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\kern\\mm\\memlayout.h",
+    "SHA256": "9895C4C579FFB3C572F71042DA4F4EA823944711703000D87BA71A7C4826BDC8"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\kern\\mm\\mmu.h",
+    "SHA256": "CEEFC5B1D135206ED9CA984B16DE4AD829B63D4496422C9C2092F1F46FCD6D53"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\libs\\defs.h",
+    "SHA256": "DB7C91F7B861D9E5F07CAF9E2F2E7A3123313DAD1BAE3AB8775EDD0D26DBCF24"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\libs\\error.h",
+    "SHA256": "514F1C23C867DC3545EAE14AB2BDC086BE40C0A36D0A6FE527B057FF227C5E30"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\libs\\printfmt.c",
+    "SHA256": "7CBE4A68C13A4BD1E5F5719F1D6233E0BC2C4EB1D7CEC3F35B43AA49CEDC1689"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\libs\\readline.c",
+    "SHA256": "63C43EC79343FEC389D8332DD1B03DEFA02FEEB9FA0F4CAADE0485067A713721"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\libs\\riscv.h",
+    "SHA256": "262939C8360E515DF51DB1B82006F9B43839591A3732B55A61FCCD7C15A18B5C"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\libs\\sbi.c",
+    "SHA256": "0DAF048A0409C5A70A22D7655380F6BEB32738449590875FA77094ED46121EA8"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\libs\\sbi.h",
+    "SHA256": "8EDFB7C62872CDFBE3E5DC2B8FD6D7248180879581FF019D2A3135EB846F1631"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\libs\\stdarg.h",
+    "SHA256": "25768E5826AEEAB95413549F90B91C4E3108D40459A0647699686E773337DB36"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\libs\\stdio.h",
+    "SHA256": "548F2AAFC312085C3993784041C8CE6754B7BE54A21F8BF339C2BE1CCEBEC352"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\libs\\string.c",
+    "SHA256": "9A7D51D6328A4F5C4789AAC14716BAC8E924F4CA40ADD9C10B135854483C749F"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\libs\\string.h",
+    "SHA256": "9BDFA46F85B9A53EB918B99DE4A8D0F9B1B77408489D5970B2AE69D234474968"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\tools\\capture_ubuntu_screenshots.sh",
+    "SHA256": "43D970B70FA43B9205B4ED1C55C7D8BEC618B01154326B76C389053BD9324E02"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\tools\\function.mk",
+    "SHA256": "9AD77549EDDD0E758D25C6AE79AD70AEC6A374526548EEE0BBBB2F4586BDF8C6"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\tools\\kernel.ld",
+    "SHA256": "9097D25EE602EEEDC1AB095B6AA80E928D9E25A016BBC57A653FB215258D9131"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释前源码备份\\tools\\trace_boot.sh",
+    "SHA256": "C0C57F9FA3E58E49321C847D8883B0B284F4308146730F3675FA4BF96D42B401"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释版验证日志\\构建.txt",
+    "SHA256": "D4DC4AD1C632B80932F723EAAA2E8BAA7EB8BB340E649BB09DBB08A605C49F72"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释版验证日志\\镜像SHA256.txt",
+    "SHA256": "2DF65191FECF78F6405E7A5A965076E21602E24E162DB92859A2720258E5BA7D"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释版验证日志\\现场验证.gdb",
+    "SHA256": "1156E9DBCC31180651C3AC42B9244B639D87C3DBAA7652EBAA73A872D2E23A70"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释版验证日志\\验证时间.txt",
+    "SHA256": "1D7B2F474E8E9F0766BEE76FB47E7525707E0D63F6BD140B2D36AA218FE372C7"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释版验证日志\\GDB对应QEMU.txt",
+    "SHA256": "86A8AA949DD51B44485BF73AC8B7CD5390A92C5BCFFD8E810FF1370A35ABF05A"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释版验证日志\\GDB验证.txt",
+    "SHA256": "95FCB545C6803F96C936E317DAAACE464CA164FCD23B53A3BAD10947B6DE96B8"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "lab1\\答辩材料\\注释版验证日志\\QEMU启动.txt",
+    "SHA256": "5D135834A61DF0EBEBAAE118C331DDB06C36DEABA3E4CB5CCA9C7AC99B2C9EF0"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "report\\prompt.md",
+    "SHA256": "23A3FA728111145019E0386E0F558F0EDBAD84DCCF0E4101E44E69CDC0502DC0"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "report\\report.md",
+    "SHA256": "9A56799E4DBC64956B32D8ED9E0881CB23F6212E6EF9D7EEC51B99F050ED2388"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "report\\images\\gdb_trace.png",
+    "SHA256": "5568B778C0A1C17A5C53268FFD5D079D6482021A80F8E0F37CD2DE505D2EAA86"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "report\\images\\gdb_trace.txt",
+    "SHA256": "49D690B3BED5F177887084B3D41D3BAF578FA2A112C3B1B73E92D067AB61009A"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "report\\images\\qemu_result.png",
+    "SHA256": "572EEA1163F02009F745053FDD721CD13D78036106B0203D6303FFD983C3DA19"
+  },
+  {
+    "Tree": "labcodes",
+    "Path": "report\\images\\qemu_result.txt",
+    "SHA256": "3BF8C8C3768E96524EB3C744CF01739E1E9AFC2334383920D064099C1C782D6C"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": ".gitattributes",
+    "SHA256": "C5EBF082AED02A0082945324EE381709A8F31E16EB602319A38173419B3921EE"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": ".gitignore",
+    "SHA256": "0ECDA92D70000F36144313FAAFD38B338416CC1DC38790D6376FD345CB92B35D"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "README.md",
+    "SHA256": "87A880889EF43E3F1F53685CE6DE47657A26432A7E1C4BF7DE96AA67651A52D8"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\Makefile",
+    "SHA256": "B0D8F58D89D1173E042244C53977740D6E45839437A65D995D0E6EDB0EAF1EED"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\debug\\assert.h",
+    "SHA256": "E7D710ECEF4024FB9C5851BF587EED83990D8B591C3BA4DE0409680153E52062"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\debug\\panic.c",
+    "SHA256": "DCA2921C69FBE56B1E6C36D2606AF39DA39FA4E6E2FA1EAEC0059862AF0F37C3"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\driver\\console.c",
+    "SHA256": "CCC8AD8B2A359566895F42EC5F7A25CE547AE594A4281701B3AB66D48B76C503"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\driver\\console.h",
+    "SHA256": "0D1B4C3CEC6E990EA5C85E7AD0DB73F1BB8C1F3DEA723BAA1475FD5E145C284B"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\driver\\dtb.c",
+    "SHA256": "F14688FF030E62352CFBBFD5E532234FEB558FB49554CF39CEF31BFA55728CEC"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\driver\\dtb.h",
+    "SHA256": "D3667D3ADB92CE4A42FF492303AF67CFE31CE4BDD0A58867767F4C16F9E145D0"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\init\\entry.S",
+    "SHA256": "67762455B03998C61CCB987E2204A245A1BF7025C5BFC9DB4E1FB26C358D5FED"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\init\\init.c",
+    "SHA256": "EA24C4E1A117AD08B176A22A99E6E1CF19667BF63EEC0FC16866E963AD39E728"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\libs\\stdio.c",
+    "SHA256": "E2DADD76D58DAFB51B1D37A74FB8AB7D31DE1B7E7007C890686848ACB0DC0ECA"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\best_fit_pmm.c",
+    "SHA256": "625B2DB45D4CC68E6C7DE8BB7BBF61C4EC237929D4F7CCB4865F28519B08A24F"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\best_fit_pmm.h",
+    "SHA256": "1EB8084DF5F40BF20B0F053CFD2DC7B64B4C4F2FD4D5048A245226EF7CBE96FD"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\buddy_pmm.c",
+    "SHA256": "9D854EC6CB669E2A0B782304F0F462155D336713281B4447E16EABDF2BCFEA1F"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\buddy_pmm.h",
+    "SHA256": "D2A49BE014F7ECD292D37AD357DBA8DD1834055D39475FED01E2A443EC1D5020"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\buddy_test.c",
+    "SHA256": "6F85F56AA8BDFA5A54790ECB3F53BF6778DD6098D8853F108E0993CFE4F76C04"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\default_pmm.c",
+    "SHA256": "B20BD861B31DA5FEEE2DA358958512838F597B03FF4DC8DA0F9ECD369F20A453"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\default_pmm.h",
+    "SHA256": "618716A58982F67E9E10F55DAF612F1F0A60AC5D6609E340FBBE8D2B0FAEB67E"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\first_fit_test.c",
+    "SHA256": "4D49EB34F2BD28AE996A7C0BBF7CD9BC0AAC28D90B93A17590847DE8A1872864"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\memlayout.h",
+    "SHA256": "5F9B02E1BF27B53E6190EE080FE93E82A895D031AFD459E58A64CCD68EA5B807"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\mmu_probe.c",
+    "SHA256": "282CAD21FCE46A3C4F760662E0CA43529A183809BFD8309B3DA9F64AD82685E1"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\mmu_probe.h",
+    "SHA256": "B12B9237902DF450A0F145A27F943959A73A97A5BC2DADB815FCE4D33A20BC84"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\mmu.h",
+    "SHA256": "B96C14D90E3275D343317FDDEF75D86E4E2DB293C198E4E12EEABD0F7A2C5F2C"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\pmm.c",
+    "SHA256": "2B9B6FBBFF7A033BCFE22771C42887971E5F43471C4BE2CAAE958847AB4FA706"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\pmm.h",
+    "SHA256": "6DE6043FD9385322FA6CA430319753117563F5FB6D2CAACDDD73496ACF8E1F81"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\slub_test.c",
+    "SHA256": "85E8CA88BCA00CA4A5C0F95E5B7F7A61460128369ADFB21988A9B991A5DC0F48"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\slub.c",
+    "SHA256": "7EE68A30420865CF22C25488C06FE8F9553494B28B8F4C82AA5BA302B377166C"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\kern\\mm\\slub.h",
+    "SHA256": "C4F4E168AB0D50310CD8883C1A8F825575411CF28C77377AA77C7887635DD6A9"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\libs\\defs.h",
+    "SHA256": "330DFC0A1AAC41445CEC7C136AAFC9DD703AAC57A8A0A9B83A0F5A3F450DD59C"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\libs\\error.h",
+    "SHA256": "AE290C36ADCB15B1268B44D84A352CBB4A84521ACD9B2679C0B9B8E94D0D0EB6"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\libs\\list.h",
+    "SHA256": "104E66699BDF0EEC0B5B623501B3BD13C56D7C551C4DFFC9512EB842776E8A45"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\libs\\printfmt.c",
+    "SHA256": "D25C73D7FD49340AB218854BCDC6B6FBAF6E476B6DBC86659E06A81DF20410A6"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\libs\\readline.c",
+    "SHA256": "BCFAA72C02F5F131F0E24D6516B12E6190D79468D384D9F7F03B71DF75B08DD3"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\libs\\riscv.h",
+    "SHA256": "91BED21E9FB6449A5A318BE70AFD4152A53DF17B80C65E7E1011A6FE720223A2"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\libs\\sbi.c",
+    "SHA256": "96970D6A3C348A7746BEB0D17AE42C372CE3BA58026634A590E22C8679EEA2FF"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\libs\\sbi.h",
+    "SHA256": "C6A75D2D03AEFA878A6105D73D8A36C9192B69DB1B54509D2FD481DB7BE53377"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\libs\\stdarg.h",
+    "SHA256": "25768E5826AEEAB95413549F90B91C4E3108D40459A0647699686E773337DB36"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\libs\\stdio.h",
+    "SHA256": "99294DC42FB021BC2F828C22895EE7A28301A8FA22F8CA17C3937ED57FD1B050"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\libs\\string.c",
+    "SHA256": "7870CFEA55CD38606311ECFB74DA1A0DC33D1A925E1B415EFE8D84DF89778C89"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\libs\\string.h",
+    "SHA256": "9BDFA46F85B9A53EB918B99DE4A8D0F9B1B77408489D5970B2AE69D234474968"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\audit_submission.py",
+    "SHA256": "4F3CAD18B875FF94D6B843AD701EE7E20BCFE33814ADF82A5B3E4FF1B4390B9A"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\boot.ld",
+    "SHA256": "D42BA7ABD94E9BD67879FE6D25165A39B829594D9FE74CADEDCE359BF4FE2474"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\build_qemu_debug.sh",
+    "SHA256": "8F74969F0C0C06D322E467CED9CF4CFBF29EC4BAA6E8118647748CB7F3B5EDB7"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\capture_evidence.py",
+    "SHA256": "BC6D34BCBAD11A13E3176A07A7B10D2E8B69CE260B32EA90402C60C4877DD292"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\course_fixture_hashes.json",
+    "SHA256": "BE9182621E43124D7E4CEAFFEFD88CF68DD6163AF524EB21F8EC020C9B345605"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\function.mk",
+    "SHA256": "9AD77549EDDD0E758D25C6AE79AD70AEC6A374526548EEE0BBBB2F4586BDF8C6"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\gdbinit",
+    "SHA256": "A0825ABC90B386B28E27268558F5BE6C66EC8C35A54AB83B538AD0CB7154262E"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\grade.sh",
+    "SHA256": "B12E4F16DE758896E2D355FCBB6D84602123C6835A64FB717E10B6D0BF1BC70D"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\inject.py",
+    "SHA256": "D5FFC8179275979F702DCAA29779BC5CDDF5A82B5CA0435D9A4732C5447D0F35"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\kernel_nopage.ld",
+    "SHA256": "D373A560BAC53E0ED56756E68ECB01ED222BF08674F5033E022E72C2896320BC"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\kernel.ld",
+    "SHA256": "171B96007B1C3F4A7ECEF522C97797AB5F8740E9BC45D578F95E1559876D2CEF"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\template_whitespace.json",
+    "SHA256": "DFBE1F73A72E8AF9E040C8FA29565B13E2C6C2C7A0407E45D8AD5020B745E5AF"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\test_lab2.c",
+    "SHA256": "6FEB75F20361D95436856E525AF80BEF0C55B300391CDA3A6DEAEDA53A0F118D"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\test_lab2.h",
+    "SHA256": "9CAEAD317AD13C5CDD143ABBC3F250C9B8F284125C4BA17A1E4F479B8D9F444C"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\trace_paging.py",
+    "SHA256": "AABA2C10379F295F9F84F92BE83B395B50F85AB0340D087980B5724A9711DAA9"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\trace_qemu_mmu.py",
+    "SHA256": "7B6A10A0A48B99E364D62A47B39ACD680FF70E9DB2F5746F4394B1AAD4E85B09"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "code\\tools\\verify_lab2.py",
+    "SHA256": "B1D7BA847BF5FDEAF0A32E6E3F0D5D5CE414890AAED806DE4834C9373AEBE293"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\代码注释阅读指南.md",
+    "SHA256": "E9150CA09ACAB377B32AF60AE095A92FFF1615033448282DB086AF7581A5E317"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\audit.json",
+    "SHA256": "38C5961919CFC869F11F6B39D87E48E708F90C99D172AEBFD5CB137A9A1894F2"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\iterations.md",
+    "SHA256": "96921FF2CAF47629A8F0D49BD7E3183A8BDB713121DEE20AB05870EC42B44EEA"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\prompt.md",
+    "SHA256": "51045EDA63EB946F4DE2B6266E5D0E11E4BDACEE21B8978C39B50FF67FF2C60F"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\report.md",
+    "SHA256": "6A87C70FB1F58ADC594343C722D345FB20D2585DCF56C091F3045712A2D2B5B7"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\images\\01-matrix.png",
+    "SHA256": "22E491CE5D391979B26F861396FC407AE41CECD9E07E272852CA8FC5BFEEE68C"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\images\\02-boot.png",
+    "SHA256": "2911345393D64239A05E532254ABFBBE3B665BF90D4FFDE1B0EB0C19764A74F0"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\images\\03-grade.png",
+    "SHA256": "1549A6845FA1460600F817B4A6904019BEBCF57882BFEA7719546D574DE26B05"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\images\\04-buddy.png",
+    "SHA256": "DBAEC1D2416AEEC9E29B5772F4F5479C6D762FEE960662EE685CFFA0C0C5F508"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\images\\05-slub.png",
+    "SHA256": "9B7F215FC5F0507608D4B217F9858FEF8A923AFFE71377D1FD962AFF8550FA69"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\images\\06-guest-paging.png",
+    "SHA256": "F113BE4194ABEC0B4560ED64B0D172DE80C73A069628F0BE13FE630837F7C7C0"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\images\\07-host-qemu.png",
+    "SHA256": "B682EEBED5C78405E962F3841D59DF70470BA71CBD5BB2DA35EC4F2859295566"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\01-initial-build.log",
+    "SHA256": "5203AFE5C842A5C5680B8DACD73FCD7C1244DDF2DFE6904217135F9A9831B7CE"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\02-initial-boot.log",
+    "SHA256": "4CDFE3D20400842723BBE59C8E45A6F2F6824CF58B3E9F557DCB1C0BC81F1B03"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\03-paging-before-fix.log",
+    "SHA256": "2CA214C82F424BA9D3ED0F9921C3A5AC725ABA6C37628959F5B4146AF004459E"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\best-fit-test.log",
+    "SHA256": "12A3A7D9FA3F069962311599DFE367DB4EFAD8C3DA87DB1300812A96D439E1DF"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\boot-best_fit-128m.log",
+    "SHA256": "78C6916DDA5FC41EA9781C8BB2FAFD0B72F31A90F7C21EE2A3B8B22CE1C8976E"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\boot-best_fit-256m-capped.log",
+    "SHA256": "49A235E618521BAFC670B3D59F4EDC778B2DEE1F990372B1EFF90F8C5C4C0E43"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\boot-best_fit-64m.log",
+    "SHA256": "A4C60B760CD166C45A8E51F1580F7B24CE1450A61292C527D7144ADFFB59ACA8"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\boot-buddy-128m.log",
+    "SHA256": "395DCC4745247DE2DFC1736E0D333FCED3785C7CA2D2E61C3480703F101EA81E"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\boot-buddy-64m.log",
+    "SHA256": "DCD6BC073792974D39A79EE768A34780CD11A3FC9D9141A84150FEB3C8682ABF"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\boot-first_fit-128m.log",
+    "SHA256": "646F8B82F2E3FD6C802D774E81CBD6FF1612A2B6E7DC030BA917C9EB10CDDC41"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\boot-first_fit-64m.log",
+    "SHA256": "E9284C733CD1BA4EFD06C4B5185C7834959BA2036487762B95CF7BB4AC89EDAA"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\boot-slub-best_fit.log",
+    "SHA256": "E532E805BCC54964789C64906CD3571CEB867596D5D83D256C26F24338E15C55"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\boot-slub-buddy.log",
+    "SHA256": "2FB9F015C961360F4782E89D41433C6C569D97532E6A297717AF7478B6C67A0C"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\build-best_fit-slub.log",
+    "SHA256": "0FBFC70EDC53A401911F704DDA1E8539DE11D64775C672D77C35DCFC77AB6AC6"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\build-best_fit.log",
+    "SHA256": "AEA82A47C3C27816555D6B4D62CD60C32114012A43F157031290E5DA3A15962C"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\build-buddy-slub.log",
+    "SHA256": "D20D8A17B1B45D1C60734E956ECEDD4C45CDAF195900CF65418B324D9D94E57E"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\build-buddy.log",
+    "SHA256": "58F8E4C57F06B7082E721E92B6AF7A436FB772824E982BC32DA7169DEF4A15A3"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\build-first_fit.log",
+    "SHA256": "9438E259899BC964A83D3EC64FA7C3780E3B45322A859F9C320A1EB796C5D033"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\clean-before-test.log",
+    "SHA256": "681A2424CD807CE53A2DE4FBA5FDE1A1AB50319F50D78E4222A0C755E1E733AB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\clean-best_fit-slub.log",
+    "SHA256": "681A2424CD807CE53A2DE4FBA5FDE1A1AB50319F50D78E4222A0C755E1E733AB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\clean-best_fit.log",
+    "SHA256": "681A2424CD807CE53A2DE4FBA5FDE1A1AB50319F50D78E4222A0C755E1E733AB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\clean-buddy-slub.log",
+    "SHA256": "681A2424CD807CE53A2DE4FBA5FDE1A1AB50319F50D78E4222A0C755E1E733AB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\clean-buddy.log",
+    "SHA256": "681A2424CD807CE53A2DE4FBA5FDE1A1AB50319F50D78E4222A0C755E1E733AB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\clean-first_fit.log",
+    "SHA256": "681A2424CD807CE53A2DE4FBA5FDE1A1AB50319F50D78E4222A0C755E1E733AB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\final-boot.log",
+    "SHA256": "3F47016924F133FDFEF1B3016E37B427F74D93852CDFA372E4626096F89EBBB2"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\first-fit-regression-build.log",
+    "SHA256": "DF460124C4B00488AE0A0606F34845220EEF44F8E19883FB28A5339352D088A8"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\first-fit-regression-original.log",
+    "SHA256": "02BB7D64B2BA8B6127D45D2B48B5E9080E08D524A004CEFA76CD746535A5C5D1"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\kernel-elf-header.log",
+    "SHA256": "6B9D0B40ED92645E38E667D4722092EC7F8C7C5CC6CFA6B0D6003D293011E56C"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\official-grade.log",
+    "SHA256": "3DD2E653CD84EBC7E909F3C5FDBD29DE37F995F1116DF86F7CA1DD82948EA117"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\paging-qemu.log",
+    "SHA256": "9E2C8A36CD3E06014DC1457209C0C0E3259198597CE1F863D3B2DA498BC98EA2"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\paging-trace.log",
+    "SHA256": "85934F1D9D84EEF5DDF27665A093A23DA6D3520C37469A585F5A6BD4EDE617E4"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\paging.gdb",
+    "SHA256": "FB850B62768BB14B47212A6972087A249EE74F02B3D0FE142AF137E056A8A9D9"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu-bare.gdb",
+    "SHA256": "A28B4C7AB935A750C7F39499CA658D33DEC55F45B19B869E7A5CD7A64E39D6CC"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu-bare.log",
+    "SHA256": "CA4D220196CB56D8C644BC1E91A23170325273D14182612A10D851AA9E28F9E9"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu-code-tlb.gdb",
+    "SHA256": "069068452EE3225CE2FCEB86D505E780641738CAFA9E67309A3055F20E4C3854"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu-code-tlb.log",
+    "SHA256": "0E496EDA19BAF15D450D2B2D3ED1093C38947AE1D0B1337B25A9FE560D135F99"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu-data-walk.gdb",
+    "SHA256": "07D24419B6D2CFC1F89941895FE7D46C68DBAAC36B715D432B3C6DF57D480850"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu-data-walk.log",
+    "SHA256": "01D02CEB66FDBE3CB0DC6CB2DAB766CC65A164E41E53A23A06CD4B4E155EB373"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\verification-all.json",
+    "SHA256": "CFD7FE61B9F45C795C66CEC383818464F4B28E7111AEF5234159CD917885FE42"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\verification-buddy.json",
+    "SHA256": "41EE52D6DC9863B964E04FF868FF8F2510CED849D621897F31DF025E1F43FD19"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\verification-core.json",
+    "SHA256": "D67E5FC079C00216FB31A205005B28BB9C985938AC32E1DA92A6A75F52241E12"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\verification-qemu.json",
+    "SHA256": "A1EAD97FD8CDD94B0C93122C62B289B67BBFEE9148C0657706EA33A2A72C43FB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\verification-slub.json",
+    "SHA256": "F4DFD41C000F86D63CECBB0020142724310B9511A769D36ED58747899F4BAAE9"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\best-fit-test.log",
+    "SHA256": "C3F65CD5A88AD8A09320769386A96DB37E718F186ED52791FA0AB0FE83667A89"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\boot-best_fit-128m.log",
+    "SHA256": "9236927E6D405F2F73F0B75464738492F5738E4F674B278C10AD85EB1D454FD8"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\boot-best_fit-256m-capped.log",
+    "SHA256": "4B5C9F9CCE718CE50BB64EB29C4796321F24142075BE8935EE01233FC8F308E2"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\boot-best_fit-64m.log",
+    "SHA256": "8360D721AF8325F48519E01FB6D00C47B8EEDAB50BDD8BDCA4C23530F9E8DCC7"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\boot-buddy-128m.log",
+    "SHA256": "FC35E7DC160EBF8864C9A537BE9A3B39684D4AA7C52A91E94CEDD03C7F09EB7C"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\boot-buddy-64m.log",
+    "SHA256": "0886A678CDCB270E6A02197073054BEC6C5C948863CB2D52BF64624BFACD5D20"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\boot-first_fit-128m.log",
+    "SHA256": "AEE6C4DDB6C5207BFC5A52EDD3454E9BEF4584EF9EEF6EB7C61F037584994B56"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\boot-first_fit-64m.log",
+    "SHA256": "BFF5F3C0FE25BF3935D8596A95767D48B88944E49419A60F84E34966E5AA89A0"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\boot-slub-best_fit.log",
+    "SHA256": "469C427A85BCBAB8F47351CED4C1E38C3322403A08DFDFC426F16836C506BD56"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\boot-slub-buddy.log",
+    "SHA256": "1C1B4D20A6C6C65CDB5FD7D268A73BE57574CE4D0DF6BA0EFFCA4E1C316A3B00"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\build-best_fit-slub.log",
+    "SHA256": "0FBFC70EDC53A401911F704DDA1E8539DE11D64775C672D77C35DCFC77AB6AC6"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\build-best_fit.log",
+    "SHA256": "AEA82A47C3C27816555D6B4D62CD60C32114012A43F157031290E5DA3A15962C"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\build-buddy-slub.log",
+    "SHA256": "D20D8A17B1B45D1C60734E956ECEDD4C45CDAF195900CF65418B324D9D94E57E"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\build-buddy.log",
+    "SHA256": "58F8E4C57F06B7082E721E92B6AF7A436FB772824E982BC32DA7169DEF4A15A3"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\build-first_fit.log",
+    "SHA256": "9438E259899BC964A83D3EC64FA7C3780E3B45322A859F9C320A1EB796C5D033"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\clean-before-test.log",
+    "SHA256": "681A2424CD807CE53A2DE4FBA5FDE1A1AB50319F50D78E4222A0C755E1E733AB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\clean-best_fit-slub.log",
+    "SHA256": "681A2424CD807CE53A2DE4FBA5FDE1A1AB50319F50D78E4222A0C755E1E733AB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\clean-best_fit.log",
+    "SHA256": "681A2424CD807CE53A2DE4FBA5FDE1A1AB50319F50D78E4222A0C755E1E733AB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\clean-buddy-slub.log",
+    "SHA256": "681A2424CD807CE53A2DE4FBA5FDE1A1AB50319F50D78E4222A0C755E1E733AB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\clean-buddy.log",
+    "SHA256": "681A2424CD807CE53A2DE4FBA5FDE1A1AB50319F50D78E4222A0C755E1E733AB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\clean-first_fit.log",
+    "SHA256": "681A2424CD807CE53A2DE4FBA5FDE1A1AB50319F50D78E4222A0C755E1E733AB"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\official-grade.log",
+    "SHA256": "B3EB46149A261E24F874D380631FB1A8D4154685A9D2556D1A8C64AAAC701651"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\logs\\qemu7\\verification-all.json",
+    "SHA256": "E7BC50BCFA021B67FC2522ED1D078A3640B884909210766E7C3B8EECBD167C15"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\prompts\\01-page-init.md",
+    "SHA256": "31862086BB9DB76407DFBA4D62E4E20FD6FCE7181A016FC689A2E2A1CE6522CD"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\prompts\\02-best-fit.md",
+    "SHA256": "3E1366BAFB48805C4F837704AE77E33BB0510F5543A4B377D25719B5A3DD0A7A"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\prompts\\03-build-and-boot.md",
+    "SHA256": "C3F6EC7E692EB29320C5C06C276CAFC5D672718B3EF6E64266D0105A3E6057C4"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\prompts\\04-buddy-implementation.md",
+    "SHA256": "4F03C2C25A60F887EB28AAA77DC21A6E4F49ABB113474DBB94659D0D6B08FEDA"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\prompts\\05-buddy-tests.md",
+    "SHA256": "758BEF3A5CC49B6F9CF8C0B1C96294FDCC18469CAD0587C944830D3FEB4576A4"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\prompts\\06-slub-implementation.md",
+    "SHA256": "372650CBE1F0A0DF0C2942FAF276FA2020D7995C7EACDADFDC9854E722D3042F"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\prompts\\07-slub-tests.md",
+    "SHA256": "58D542A6EC7638ACF183FECE8E10A4A95DAC942ADA940DE3347B48267776B8E4"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\prompts\\08-qemu-source-debug.md",
+    "SHA256": "D99F41335C01BBAB0A181A1C16554E591BCEFDD9BFA4667ACC933B7CE6DD6928"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\prompts\\09-validation-and-delivery.md",
+    "SHA256": "8E54EDB28306BFF0D257E2CBB4C7A18813993D4A38CC09502846E70840643CE2"
+  },
+  {
+    "Tree": "labcodes-lab2",
+    "Path": "report\\prompts\\10-first-fit-regression.md",
+    "SHA256": "CD7F86B1E89E877C329BF69D8EDDE8DE61E0603DB550040A70C40D7A2551CF17"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "Makefile",
+    "SHA256": "1F6DA499DD2F18851429101AA600D2C7F944BDD5B4F0652D3231E3DAD02E68A6"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\debug\\assert.h",
+    "SHA256": "A9A3911F4A4269AE429812491D49BDE18DB4E319B32EEFCC19A4C12F0433AFE3"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\debug\\kdebug.c",
+    "SHA256": "55DD4A09CCBB0EE541C8A1795C63D3C09112C73206C3B8C4A1B321DF6BCED3AA"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\debug\\kdebug.h",
+    "SHA256": "0A8B94AEBD0AD5613D66939539749B5128AE460860FD6DC26934F4DA20E8AEA7"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\debug\\kmonitor.c",
+    "SHA256": "1E113DE84A31123B6BD7D8BE540CD3F833581FE6C970A7CB4DB024E1F3501361"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\debug\\kmonitor.h",
+    "SHA256": "B279BF8FDC0E67871932B5BEA2F3C21613C580269D6FF2246DAFD117F2916208"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\debug\\panic.c",
+    "SHA256": "978ABEDB3AD4628E5DD818148FD2FD7C3E4FB6C67D8D6FAD980FF504F8A5EECA"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\debug\\stab.h",
+    "SHA256": "63BAAF09C001BFAAB5A909DB39627AE44C467EC7F86D2095945DE8F533C5E6CA"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\driver\\clock.c",
+    "SHA256": "3EFD7894DB9D8294D030A5ACE39566883B6E80596329BC741263CB39438E774D"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\driver\\clock.h",
+    "SHA256": "61E9DC97C3BF7562C3391EB644DF05A4F6A81D3EABF3FFC24DB67BF2EDAC4157"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\driver\\console.c",
+    "SHA256": "1CA05DEE07C0DCFF1EFCFC0D710B2B0BEEFF3A982F2327C699CAD460ADC27177"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\driver\\console.h",
+    "SHA256": "0D1B4C3CEC6E990EA5C85E7AD0DB73F1BB8C1F3DEA723BAA1475FD5E145C284B"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\driver\\dtb.c",
+    "SHA256": "2B779E8CFC8F2CB5798E69BB3985347AF591748F12556A80699ABF468E3D8D7E"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\driver\\dtb.h",
+    "SHA256": "7ECF0E83BA27CE80409BB46C532F278DA775731777FF5CB00D7D1C66E17CB2D0"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\driver\\intr.c",
+    "SHA256": "F9319A63BDC6FC89BF908BB0547055F742E04B8B584E197F67D73D26916D379A"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\driver\\intr.h",
+    "SHA256": "1284E10D0F23D42D88F4314E40CD630A73AADEC46407CE179B7E1B253F962083"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\init\\entry.S",
+    "SHA256": "8843C9BFC173AF055EBD9719C2E6F624B06EC3B647A0167028B5BF3997A9DF0C"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\init\\init.c",
+    "SHA256": "90ED8FA71D1E5A47FC63AEFCA2704FB5326634C0A0267CC71CEF43F594A07B23"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\libs\\stdio.c",
+    "SHA256": "E2DADD76D58DAFB51B1D37A74FB8AB7D31DE1B7E7007C890686848ACB0DC0ECA"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\mm\\best_fit_pmm.c",
+    "SHA256": "4B59FE4A387448A8D3CC721CACC93B0684F2FD5EC2F5ECE6EF6CF6C93D7AE2A9"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\mm\\best_fit_pmm.h",
+    "SHA256": "13EFB796FEE418B9A70102B5074930E9BB2B7DED91AB9EB38186E4361EFC86DB"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\mm\\default_pmm.c",
+    "SHA256": "0F55FC38B4B95C97FCBE503035F2EFC933F02024BF39B0F7563940219A7105CB"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\mm\\default_pmm.h",
+    "SHA256": "73D37059123716F4EA4E62CA38515BC20AF702BF7F7BD69D44F5DA0785230461"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\mm\\memlayout.h",
+    "SHA256": "81CB03294DE2B7307CF10A84992DBB751D182DCD72C36425E52AB1D400022D45"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\mm\\mmu.h",
+    "SHA256": "5A609B5BF5D83148614542DAC524C85AD5B3481BD3EC3CF74BF289D442EFA0E4"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\mm\\pmm.c",
+    "SHA256": "4431DD3D0FB4F1D95B2F8E957BA91B74E0D91B065E2D907C743B3A474BE7C949"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\mm\\pmm.h",
+    "SHA256": "74447DB5F87D8A3DC6341AC21C689624404F08A772564EAFEE6B664F110735E0"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\sync\\sync.h",
+    "SHA256": "AC3FEF0622752CA3464FE754CA4872C97014F1975A75A46322E56096768C43F4"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\trap\\trap.c",
+    "SHA256": "271996F745322E5982DB14A502A1BBE4FF573463BCAD4DAB47EED130EA6E7E82"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\trap\\trap.h",
+    "SHA256": "37F65935CA444735D061DD55427A512D67D9643CF5B02B26F804BCA708314DDA"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "kern\\trap\\trapentry.S",
+    "SHA256": "6A862C584327756EA3383A3F187A79D690795ED9B8DB10E171F2DD89D2920987"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\atomic.h",
+    "SHA256": "C12D8E35E5C8366F32712363D5BB601728F421918DA64CEC8B46CB75C94384DC"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\defs.h",
+    "SHA256": "330DFC0A1AAC41445CEC7C136AAFC9DD703AAC57A8A0A9B83A0F5A3F450DD59C"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\error.h",
+    "SHA256": "AE290C36ADCB15B1268B44D84A352CBB4A84521ACD9B2679C0B9B8E94D0D0EB6"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\list.h",
+    "SHA256": "C9ABF4AB67008F6B4C81A8A585B066E5420B7DC044EF57353FC2CB7C2180D049"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\printfmt.c",
+    "SHA256": "D25C73D7FD49340AB218854BCDC6B6FBAF6E476B6DBC86659E06A81DF20410A6"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\readline.c",
+    "SHA256": "BCFAA72C02F5F131F0E24D6516B12E6190D79468D384D9F7F03B71DF75B08DD3"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\riscv.h",
+    "SHA256": "91BED21E9FB6449A5A318BE70AFD4152A53DF17B80C65E7E1011A6FE720223A2"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\sbi.c",
+    "SHA256": "E07871F0D1620BA9BF776D4F82C182B56F70037C97BE342FD6916ACFA0B0DC44"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\sbi.h",
+    "SHA256": "C6A75D2D03AEFA878A6105D73D8A36C9192B69DB1B54509D2FD481DB7BE53377"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\stdarg.h",
+    "SHA256": "25768E5826AEEAB95413549F90B91C4E3108D40459A0647699686E773337DB36"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\stdio.h",
+    "SHA256": "99294DC42FB021BC2F828C22895EE7A28301A8FA22F8CA17C3937ED57FD1B050"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\string.c",
+    "SHA256": "7870CFEA55CD38606311ECFB74DA1A0DC33D1A925E1B415EFE8D84DF89778C89"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "libs\\string.h",
+    "SHA256": "9BDFA46F85B9A53EB918B99DE4A8D0F9B1B77408489D5970B2AE69D234474968"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "tools\\boot.ld",
+    "SHA256": "D42BA7ABD94E9BD67879FE6D25165A39B829594D9FE74CADEDCE359BF4FE2474"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "tools\\function.mk",
+    "SHA256": "9AD77549EDDD0E758D25C6AE79AD70AEC6A374526548EEE0BBBB2F4586BDF8C6"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "tools\\gdbinit",
+    "SHA256": "A0825ABC90B386B28E27268558F5BE6C66EC8C35A54AB83B538AD0CB7154262E"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "tools\\grade.sh",
+    "SHA256": "52A21695266A525BCCDCF5BBFF4867288F70BFAE2B4BD37C47AB2E3369893140"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "tools\\inject.py",
+    "SHA256": "4414AEE51635D2EEFCA977F9E3485F3E01DD4F0D8DDB23244A89B8956B347D68"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "tools\\kernel_nopage.ld",
+    "SHA256": "D373A560BAC53E0ED56756E68ECB01ED222BF08674F5033E022E72C2896320BC"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "tools\\kernel.ld",
+    "SHA256": "171B96007B1C3F4A7ECEF522C97797AB5F8740E9BC45D578F95E1559876D2CEF"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "tools\\sign.c",
+    "SHA256": "E0224260ADEC04F09820909279C9C60299220778F27355113CAB862F0A370544"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "tools\\test_lab3_context.S",
+    "SHA256": "213507617E6E9B2BE5AE5C39A53534F9D25DFB60908E13D2FC917A4C82DCD4D7"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "tools\\test_lab3.c",
+    "SHA256": "56DD62F1729F25C96E94870F282AC1B2E942888928A6D2D035DF8AE228190AC3"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "tools\\test_lab3.h",
+    "SHA256": "4A74A88B03557C10633484664EC1D37BE87E485F281DACF88EB583E647A7C96B"
+  },
+  {
+    "Tree": "lab3\\lab3_new",
+    "Path": "tools\\vector.c",
+    "SHA256": "0DCA823BD9922BFB98B64DCE4B6F157EC881B62C545F152C0E5EC1DBD86E26DC"
+  }
+]

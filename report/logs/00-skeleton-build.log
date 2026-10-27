@@ -1,0 +1,39 @@
++ cc kern/init/entry.S
++ cc kern/init/init.c
++ cc kern/libs/stdio.c
++ cc kern/debug/kdebug.c
++ cc kern/debug/kmonitor.c
++ cc kern/debug/panic.c
++ cc kern/driver/clock.c
++ cc kern/driver/console.c
++ cc kern/driver/dtb.c
++ cc kern/driver/intr.c
++ cc kern/trap/trap.c
++ cc kern/trap/trapentry.S
+kern/trap/trap.c: In function 'trap_dispatch':
+kern/trap/trap.c:89:9: error: implicit declaration of function 'interrupt_handler' [-Werror=implicit-function-declaration]
+   89 |         interrupt_handler(tf);
+      |         ^~~~~~~~~~~~~~~~~
+kern/trap/trap.c:92:9: error: implicit declaration of function 'exception_handler' [-Werror=implicit-function-declaration]
+   92 |         exception_handler(tf);
+      |         ^~~~~~~~~~~~~~~~~
++ cc kern/mm/best_fit_pmm.c
+cc1: all warnings being treated as errors
+make: *** [Makefile:118: obj/kern/trap/trap.o] Error 1
+make: *** Waiting for unfinished jobs....
+kern/mm/best_fit_pmm.c: In function 'basic_check':
+kern/mm/best_fit_pmm.c:24:36: error: 'free_list' undeclared (first use in this function)
+   24 |     list_entry_t free_list_store = free_list;
+      |                                    ^~~~~~~~~
+kern/mm/best_fit_pmm.c:24:36: note: each undeclared identifier is reported only once for each function it appears in
+kern/mm/best_fit_pmm.c:28:34: error: 'nr_free' undeclared (first use in this function)
+   28 |     unsigned int nr_free_store = nr_free;
+      |                                  ^~~~~~~
+kern/mm/best_fit_pmm.c: In function 'best_fit_check':
+kern/mm/best_fit_pmm.c:66:25: error: 'free_list' undeclared (first use in this function)
+   66 |     list_entry_t *le = &free_list;
+      |                         ^~~~~~~~~
+kern/mm/best_fit_pmm.c:97:34: error: 'nr_free' undeclared (first use in this function)
+   97 |     unsigned int nr_free_store = nr_free;
+      |                                  ^~~~~~~
+make: *** [Makefile:118: obj/kern/mm/best_fit_pmm.o] Error 1

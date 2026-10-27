@@ -1,0 +1,19 @@
+ffffffffc0201c22 <lab3_break16_site>:
+ffffffffc0201c22:	9002                	ebreak
+ffffffffc0201c24:	00002517          	auipc	a0,0x2
+ffffffffc0201c28:	c9c50513          	addi	a0,a0,-868 # ffffffffc02038c0 <default_pmm_manager+0x410>
+
+ffffffffc0201c30 <lab3_break32_site>:
+ffffffffc0201c30:	00100073          	ebreak
+ffffffffc0201c34:	00002517          	auipc	a0,0x2
+ffffffffc0201c38:	cb450513          	addi	a0,a0,-844 # ffffffffc02038e8 <default_pmm_manager+0x438>
+
+ffffffffc0201c40 <lab3_illegal16_site>:
+ffffffffc0201c40:	0000                	unimp
+ffffffffc0201c42:	00002517          	auipc	a0,0x2
+ffffffffc0201c46:	cce50513          	addi	a0,a0,-818 # ffffffffc0203910 <default_pmm_manager+0x460>
+
+ffffffffc0201c4e <lab3_illegal32_site>:
+ffffffffc0201c4e:	0000007b          	0x7b
+ffffffffc0201c52:	00002517          	auipc	a0,0x2
+ffffffffc0201c56:	cde50513          	addi	a0,a0,-802 # ffffffffc0203930 <default_pmm_manager+0x480>

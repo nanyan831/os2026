@@ -1,0 +1,7 @@
+Linux 6.18.33.2-microsoft-standard-WSL2 x86_64 GNU/Linux
+riscv64-unknown-elf-gcc () 10.2.0
+GNU Make 4.3
+Python 3.10.12
+GNU gdb (Ubuntu 12.1-0ubuntu1~22.04.2) 12.1
+QEMU emulator version 6.2.0 (Debian 1:6.2+dfsg-2ubuntu6.31)
+QEMU emulator version 7.0.0
