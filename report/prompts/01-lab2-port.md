@@ -1,28 +1,42 @@
-# 01 Lab2 必要实现迁移规格
+# 阶段 1：Lab2 内存管理迁移与接口保护
 
-本文件归档本次执行采用的模块约束，用于复现；不是完整聊天逐字稿。
+**责任成员：** 王子卓（2411070）。**工作量：** 3 点。
 
-## [PROMPT]
+本阶段按现有实现和真实验证材料整理，2026-10-27。成员责任见[等量分工](../division.md)，失败、修订与验证见[迭代记录](../iterations.md)。
 
-在独立 Lab3 分支中，以课程 Lab3 骨架为基础，补齐 Lab2 留空的物理页初始化和 Best-Fit。修改真实工程文件，只迁移必要实现，保留官方检查函数、Lab3 中断保护和原子操作。对相邻尾块释放增加回归验证；确有失败时只修复算法实现，不修改检查函数。
+```text
+[PROMPT]
+任务：以课程 Lab3 骨架为基础，在 code/kern/mm/pmm.c 和 best_fit_pmm.c 的 lab2 留空位置补齐上一实验的必要实现。
+操作要求：直接修改真实工程文件，对照已有 Lab2 的 page_init 和 Best-Fit 迁移；保留课程固定检查函数、Lab3 原子操作和中断保护。
+输出要求：可编译的物理页初始化、完整 Best-Fit 管理器、必要常量和可选择的 PMM 配置；说明迁移边界。
 
-## [RELY]
+[RELY]
+struct Page 包含 ref、flags、property、page_link；RV64 下实际大小为40字节。
+PGSIZE=4096，DRAM_BASE=0x80000000，PHYSICAL_MEMORY_END=0x88000000，PHYSICAL_MEMORY_OFFSET=0xffffffff40000000。
+get_memory_base/get_memory_size 提供 DTB 内存范围；pages 是描述符数组虚拟地址，npage 为物理页号上界，数组长度是 npage-nbase。
+可使用 end、PADDR、pa2page、PPN、ROUNDUP、ROUNDDOWN、init_memmap、panic、cprintf 和框架 Page 状态宏。
+Lab3 的 alloc_pages/free_pages/nr_free_pages 已通过 local_intr_save/restore 保护调用；memlayout.h 使用 atomic.h。
+Makefile 会编译 kern/mm 下全部 C 文件，不能因为默认使用 First-Fit 就留下 Best-Fit 实现空缺。
 
-- 参考上一实验当前 `page_init()`、Best-Fit 算法。
-- `get_memory_base/get_memory_size` 提供 DTB 范围。
-- `Page`、`nbase`、`PADDR/pa2page` 和 `pmm_manager` 的含义以 Lab3 头文件为准。
-- Lab3 的 `alloc_pages/free_pages/nr_free_pages` 已有 `local_intr_save/restore`；`memlayout.h` 使用 `atomic.h`。
-- 每个源码文件仍会编译，即使该管理器暂未被选择。
+[GUARANTEE]
+static void page_init(void);
+static void best_fit_init(void);
+static void best_fit_init_memmap(struct Page *base, size_t n);
+static struct Page *best_fit_alloc_pages(size_t n);
+static void best_fit_free_pages(struct Page *base, size_t n);
+static size_t best_fit_nr_free_pages(void);
+const struct pmm_manager best_fit_pmm_manager;
+保持原有公开 PMM 接口，支持 PMM=first_fit|best_fit，默认保持 Lab3 的 first_fit。
 
-## [GUARANTEE]
-
-实现 `page_init()`、Best-Fit 初始化/登记/分配/释放/统计及管理器实例；增加构建选择 `PMM=first_fit|best_fit`。保留原有内存接口、课程自检以及 DTB 初始化和查询接口。
-
-## [SPECIFICATION]
-
-- 前置条件：内核栈和映射可用，DTB 已解析，PMM 空状态已初始化。
-- 后置条件：Page 数组覆盖受管理 RAM；固件、内核、描述符和对齐空隙保留；只登记完整空闲页。
-- 检查范围非空、加法溢出和描述符容量；使用当前结构体实际大小。
-- Best-Fit 在所有满足块中选择最小块，同大小保留先遇到的低地址块；释放后恢复地址顺序并合并物理相邻块。
-- 每个公开接口返回时保持调用前 SIE 状态；不得整份用 Lab2 `pmm.c/memlayout.h` 覆盖 Lab3。
-- 不迁入 Buddy、SLUB 或 MMU 探针；固定检查函数原文保留。
+[SPECIFICATION]
+page_init
+Pre-Condition：启动地址映射、内核栈和 DTB 解析可用；管理器已 init，但尚未登记空闲区。
+Post-Condition：va_pa_offset、npage、pages 正确；固件、内核、Page 数组和对齐空隙均保留；只有元数据之后的完整页面进入管理器。
+Case 1：合法 RAM。按 DTB 与框架上界确定管理末端，检查描述符数组能容纳后再初始化，并登记非空空闲区。
+Case 2：基址不支持、零大小、加法溢出或空间不足。明确 panic，不越界初始化或登记零页区间。
+Best-Fit
+Pre-Condition：登记区间合法且描述符处于 reserved；申请 n>0，释放属于先前分配的合法区间。
+Post-Condition：申请选择最小满足块，同大小取先遇到的低地址块；分裂、地址顺序、相邻合并及空闲页计数正确。
+Case 3：精确匹配、分裂和无连续满足块分别处理；失败返回 NULL 且不破坏状态。
+Requirements：保留 basic_check/best_fit_check 原文；保留 Lab3 的中断保护和原子位操作；不整份覆盖 pmm.c/memlayout.h，不迁入 Buddy、SLUB 或 MMU 探针。
+```

@@ -3,7 +3,8 @@
 本分支 `lab3` 基于课程 `lab3_new` 骨架完成中断与异常支持，沿用小组仓库 `code/`、`report/` 的交付布局。课程所说的 `labcodes/lab3` 对应本分支的源码和报告目录。
 
 - [实验报告](report/report.md)
-- [四段式执行规格与提示词](report/prompt.md)
+- [各阶段完整四段式提示词汇总](report/prompt.md)
+- [小组等量分工](report/division.md)
 - [真实失败与修复记录](report/iterations.md)
 - [QEMU 6.2 验证矩阵](report/logs/verification-qemu6.json)
 - [QEMU 7.0 验证矩阵](report/logs/verification-qemu7.json)
@@ -58,4 +59,12 @@ python3 tools/capture_evidence.py           # 需 Xvfb、xterm、xwininfo、Imag
 
 验证使用 GCC 10.2.0、QEMU 6.2/OpenSBI 0.9 和 QEMU 7.0/OpenSBI 1.0。精确工具信息见 [环境日志](report/logs/environment.log)。`bin/`、`obj/` 和缓存不纳入 Git；固定测试指纹、实际日志和截图纳入报告。
 
-小组成员沿用仓库登记：刘宸旭 2414139、王子卓 2411070、缪臻 2413807。本轮由缪臻发起 Codex 全量实施；Lab3 人工分工和现场验收由小组据实际情况核对，未把 Lab2 分工直接当作本轮贡献。
+小组按等量原则分配，每人3阶段、9个估算工作量点，各占1/3：
+
+| 成员 | 责任范围 | 阶段 |
+|---|---|---|
+| 刘宸旭 2414139 | Trap 汇编上下文、寄存器/GDB、报告统稿与提示词编排 | 3、6、9 |
+| 王子卓 2411070 | 内存迁移与保护、中断时钟与关机、PMM/SIE 回归 | 1、4、7 |
+| 缪臻 2413807 | 构建与启动兼容、异常/EPC、边界测试及综合验收归档 | 2、5、8 |
+
+各成员维护自己模块的报告和提示词，交叉复核按“刘复核王、王复核缪、缪复核刘”安排；详见[分工页](report/division.md)。责任分配与历史人工操作记录、助教现场验收分别说明。

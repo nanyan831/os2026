@@ -1,0 +1,123 @@
+{
+  "revision_date": "2026-10-27",
+  "scope": "Documentation and allocation only; no kernel/QEMU rerun",
+  "conformance": {
+    "Passed": true,
+    "PromptFiles": 9,
+    "AggregateBodies": 9,
+    "MarkdownFilesChecked": 14,
+    "Stages": [
+      {
+        "Stage": 1,
+        "File": "01-lab2-port.md",
+        "Owner": "王子卓",
+        "Points": 3,
+        "BodyMatchesAggregate": true,
+        "CompleteSpecification": true
+      },
+      {
+        "Stage": 2,
+        "File": "02-build-and-boot.md",
+        "Owner": "缪臻",
+        "Points": 3,
+        "BodyMatchesAggregate": true,
+        "CompleteSpecification": true
+      },
+      {
+        "Stage": 3,
+        "File": "03-trap-context.md",
+        "Owner": "刘宸旭",
+        "Points": 4,
+        "BodyMatchesAggregate": true,
+        "CompleteSpecification": true
+      },
+      {
+        "Stage": 4,
+        "File": "04-timer-interrupts.md",
+        "Owner": "王子卓",
+        "Points": 4,
+        "BodyMatchesAggregate": true,
+        "CompleteSpecification": true
+      },
+      {
+        "Stage": 5,
+        "File": "05-exception-handlers.md",
+        "Owner": "缪臻",
+        "Points": 4,
+        "BodyMatchesAggregate": true,
+        "CompleteSpecification": true
+      },
+      {
+        "Stage": 6,
+        "File": "06-context-tests-and-gdb.md",
+        "Owner": "刘宸旭",
+        "Points": 3,
+        "BodyMatchesAggregate": true,
+        "CompleteSpecification": true
+      },
+      {
+        "Stage": 7,
+        "File": "07-pmm-and-sie-regression.md",
+        "Owner": "王子卓",
+        "Points": 2,
+        "BodyMatchesAggregate": true,
+        "CompleteSpecification": true
+      },
+      {
+        "Stage": 8,
+        "File": "08-validation-and-delivery.md",
+        "Owner": "缪臻",
+        "Points": 2,
+        "BodyMatchesAggregate": true,
+        "CompleteSpecification": true
+      },
+      {
+        "Stage": 9,
+        "File": "09-report-and-review.md",
+        "Owner": "刘宸旭",
+        "Points": 2,
+        "BodyMatchesAggregate": true,
+        "CompleteSpecification": true
+      }
+    ],
+    "Allocation": [
+      {
+        "Owner": "刘宸旭",
+        "Stages": [
+          3,
+          6,
+          9
+        ],
+        "StageCount": 3,
+        "Points": 9
+      },
+      {
+        "Owner": "缪臻",
+        "Stages": [
+          2,
+          5,
+          8
+        ],
+        "StageCount": 3,
+        "Points": 9
+      },
+      {
+        "Owner": "王子卓",
+        "Stages": [
+          1,
+          4,
+          7
+        ],
+        "StageCount": 3,
+        "Points": 9
+      }
+    ]
+  },
+  "preservation": {
+    "filesCompared": 81,
+    "sourceFiles": 62,
+    "screenshots": 5,
+    "lab2Documents": 14,
+    "unchanged": true
+  }
+}
