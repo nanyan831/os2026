@@ -1,0 +1,27 @@
+$ gdb-multiarch -q -batch -x /tmp/nku-lab3-gdb-4ibszcx8/trace.gdb
+The target architecture is set to "riscv:rv64".
+0x0000000000001000 in ?? ()
+Temporary breakpoint 1 at 0xffffffffc0200c50: file kern/trap/trapentry.S, line 104.
+
+Temporary breakpoint 1, __alltraps () at kern/trap/trapentry.S:104
+104	    SAVE_ALL
+ENTRY sp=0xffffffffc0205ff0 sepc=0xffffffffc0200832 scause=0x8000000000000005 sstatus=0x8000000000006120
+Temporary breakpoint 2 at 0xffffffffc0200c42: file kern/trap/trap.c, line 174.
+
+Temporary breakpoint 2, trap_dispatch (tf=0xffffffffc0205ed0) at kern/trap/trap.c:174
+174	    if ((intptr_t)tf->cause < 0) {
+FRAME a0=0xffffffffc0205ed0 sp=0xffffffffc0205ed0 bytes=288 saved_sp=0xffffffffc0205ff0 epc=0xffffffffc0200832 status=0x8000000000006120
+Temporary breakpoint 3 at 0xffffffffc0200cb8: file kern/trap/trapentry.S, line 113.
+
+Temporary breakpoint 3, __trapret () at kern/trap/trapentry.S:113
+113	    RESTORE_ALL
+RETURN frame_sp=0xffffffffc0205ed0 epc=0xffffffffc0200832
+Temporary breakpoint 4 at 0xffffffffc0200832: file kern/driver/intr.c, line 5.
+
+Temporary breakpoint 4, intr_enable () at kern/driver/intr.c:5
+5	void intr_enable(void) { set_csr(sstatus, SSTATUS_SIE); }
+RESUMED pc=0xffffffffc0200832 sp=0xffffffffc0205ff0 sstatus=0x8000000000006022
+GDB Trap roundtrip: PASS
+[Inferior 1 (process 1) detached]
+
+[runner exit=0, timed_out=False]

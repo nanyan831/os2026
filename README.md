@@ -5,6 +5,7 @@
 - [实验报告](report/report.md)
 - [各阶段完整四段式提示词汇总](report/prompt.md)
 - [小组等量分工](report/division.md)
+- [2026-11-04 再次核验与提交收尾](report/recheck-20261104.md)
 - [真实失败与修复记录](report/iterations.md)
 - [QEMU 6.2 验证矩阵](report/logs/verification-qemu6.json)
 - [QEMU 7.0 验证矩阵](report/logs/verification-qemu7.json)
@@ -12,6 +13,8 @@
 - [实际终端截图](report/images/)
 
 实现包括必要的 Lab2 内存管理迁移、Trap 入口与上下文恢复、16/32 位断点及非法指令处理、连续时钟计数、十次统计输出后关机。另修复 First-Fit 尾插循环和启动过渡映射。两个 QEMU 版本各通过 6/6 项验证，官方评分均为 100/100。
+
+2026-11-04已使用相同源码重新构建并完成两版本完整矩阵，结果仍为各6/6、启动适配后的官方评分100/100。新日志与原始证据分别保存，详见[再次核验记录](report/recheck-20261104.md)。
 
 **评分运行使用已说明的启动参数适配器。** 原始 `loader` 方式在本机停留于固件；适配器仅将课程固定 raw loader 参数转换为 `-kernel`，执行真实 QEMU，官方五个测试/注入文件逐字节保持不变。原始失败和适配后的结果分别保留，详见报告。
 
