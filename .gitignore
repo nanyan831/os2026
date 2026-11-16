@@ -1,9 +1,12 @@
-# 本地实验文件由各实验分支管理
-/lab1/
-/code/
-/report/
+# Lab4 source, tests and report are versioned on this branch.
 **/bin/
 **/obj/
+**/__pycache__/
+*.pyc
+/code/.qemu*.out
+/code/.gdb.in
+.vs/
+.vscode/
 *.swp
 *.swo
 *~
