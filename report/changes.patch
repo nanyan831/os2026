@@ -1,0 +1,1733 @@
+--- original/Makefile
++++ lab5/Makefile
+@@ -30,7 +30,7 @@
+ HOSTCC		:= gcc
+ HOSTCFLAGS	:= -Wall -O2
+ 
+-GDB		:= $(GCCPREFIX)gdb
++GDB		:= $(shell command -v $(GCCPREFIX)gdb 2>/dev/null || command -v gdb-multiarch)
+ 
+ CC		:= $(GCCPREFIX)gcc
+ CFLAGS  := -mcmodel=medany -O2 -std=gnu99 -Wno-unused
+@@ -211,27 +211,18 @@
+ 
+ .DEFAULT_GOAL := TARGETS
+ 
+-QEMUOPTS = -hda $(UCOREIMG) -drive file=$(SWAPIMG),media=disk,cache=writeback
++QEMUOPTS = -machine virt -nographic -bios default -kernel $(UCOREIMG)
+ 
+ .PHONY: qemu spike
+ qemu: $(UCOREIMG) $(SWAPIMG) $(SFSIMG)
+ #	$(V)$(QEMU) -kernel $(UCOREIMG) -nographic
+-	$(V)$(QEMU) \
+-		-machine virt \
+-		-nographic \
+-		-bios default \
+-		-device loader,file=$(UCOREIMG),addr=0x80200000
++	$(V)$(QEMU) $(QEMUOPTS)
+ 
+ debug: $(UCOREIMG) $(SWAPIMG) $(SFSIMG)
+-	$(V)$(QEMU) \
+-		-machine virt \
+-		-nographic \
+-		-bios default \
+-		-device loader,file=$(UCOREIMG),addr=0x80200000\
+-		-s -S
++	$(V)$(QEMU) $(QEMUOPTS) -s -S
+ 
+ gdb:
+-	riscv64-unknown-elf-gdb \
++	$(GDB) \
+     -ex 'file bin/kernel' \
+     -ex 'set arch riscv:rv64' \
+     -ex 'target remote localhost:1234'
+@@ -257,7 +248,7 @@
+ GRADE_QEMU_OUT	:= .qemu.out
+ HANDIN			:= proj$(PROJ)-handin.tar.gz
+ 
+-TOUCH_FILES		:= kern/process/proc.c
++TOUCH_FILES		:= kern/process/proc.c kern/mm/cow_test.c kern/mm/vmm.c
+ 
+ MAKEOPTS		:= --quiet --no-print-directory
+ 
+--- original/tools/grade.sh
++++ lab5/tools/grade.sh
+@@ -312,7 +312,7 @@
+ swapimg=$(make_print swapimg)
+ 
+ ## set default qemu-options
+-qemuopts="-machine virt -nographic -bios default -device loader,file=bin/ucore.img,addr=0x80200000"
++qemuopts="$(make_print QEMUOPTS)"
+ 
+ ## set break-function, default is readline
+ brkfun=readline
+@@ -440,4 +440,4 @@
+     ! - 'wait got too many'                                     \
+     ! - 'user panic at .*'
+ 
+-show_final+show_final
+--- original/user/cowtest.c
++++ lab5/user/cowtest.c
+@@ -0,0 +1,59 @@
++#include <ulib.h>
++#include <stdio.h>
++#include <error.h>
++
++static volatile unsigned char area[32 * 4096] __attribute__((aligned(4096)));
++static volatile int code __attribute__((aligned(4096))) = 0x12345678;
++
++void __attribute__((used, noinline)) write_text(void) { asm volatile("nop"); }
++
++int main(void)
++{
++    for (int i = 0; i < 32; i++) area[i * 4096] = i + 1;
++    int pid = fork();
++    assert(pid >= 0);
++    if (pid == 0) {
++        for (int i = 0; i < 32; i++) assert(area[i * 4096] == i + 1);
++        area[4096] = 99;
++        yield();
++        assert(area[0] == 1 && area[4096] == 99);
++        exit(73);
++    }
++    area[0] = 88; // Parent write before child runs also needs COW + TLB flush.
++    assert(waitpid(pid, (int *)&code) == 0 && code == 73);
++    assert(area[0] == 88 && area[4096] == 2);
++    cprintf("[COW user] parent/child writes and untouched pages PASS\n");
++
++    code = 0x12345678;
++    int observer = fork();
++    assert(observer >= 0);
++    if (observer == 0) {
++        for (int i = 0; i < 20; i++) { yield(); assert(code == 0x12345678); }
++        exit(0);
++    }
++    int worker = fork();
++    assert(worker >= 0);
++    if (worker == 0) exit(42);
++    assert(waitpid(worker, (int *)&code) == 0 && code == 42);
++    assert(waitpid(observer, NULL) == 0);
++    cprintf("[COW user] waitpid kernel copyout preserves observer PASS\n");
++
++    pid = fork();
++    assert(pid >= 0);
++    if (pid == 0) {
++        int grand = fork(); assert(grand >= 0);
++        if (grand == 0) { area[2 * 4096] = 77; exit(9); }
++        int status; assert(waitpid(grand, &status) == 0 && status == 9);
++        assert(area[2 * 4096] == 3); exit(0);
++    }
++    int status;
++    assert(waitpid(pid, &status) == 0 && status == 0 && area[2 * 4096] == 3);
++    cprintf("[COW user] nested fork PASS\n");
++
++    pid = fork(); assert(pid >= 0);
++    if (pid == 0) { *(volatile char *)(uintptr_t)write_text = 0; exit(1); }
++    assert(waitpid(pid, &status) == 0 && status == -E_KILLED);
++    cprintf("[COW user] read-only text write rejected PASS\n");
++    cprintf("cowtest pass.\n");
++    return 0;
++}
+--- original/kern/init/entry.S
++++ lab5/kern/init/entry.S
+@@ -33,6 +33,7 @@
+     
+     # 我们在虚拟内存空间中：随意将 sp 设置为虚拟地址！
+     lui sp, %hi(bootstacktop)
++    addi sp, sp, %lo(bootstacktop)
+ 
+     # 我们在虚拟内存空间中：随意跳转到虚拟地址！
+     # 跳转到 kern_init
+@@ -57,7 +58,10 @@
+ boot_page_table_sv39:
+     # 0xffffffff_c0000000 map to 0x80000000 (1G)
+     # 前 511 个页表项均设置为 0 ，因此 V=0 ，意味着是空的(unmapped)
+-    .zero 8 * 511
++    # Identity mapping while taking the first instructions after writing satp.
++    .zero 8 * 2
++    .quad (0x80000 << 10) | 0xcf
++    .zero 8 * 508
+     # 设置最后一个页表项，PPN=0x80000，标志位 VRWXAD 均为 1
+     .quad (0x80000 << 10) | 0xcf # VRWXAD
+     .global boot_hartid
+--- original/kern/mm/cow_test.c
++++ lab5/kern/mm/cow_test.c
+@@ -0,0 +1,105 @@
++#include <vmm.h>
++#include <pmm.h>
++#include <default_pmm.h>
++#include <assert.h>
++#include <string.h>
++#include <error.h>
++#include <stdio.h>
++#include <kmalloc.h>
++
++#ifdef COW_SELFTEST
++static struct mm_struct *test_mm(void)
++{
++    struct mm_struct *mm = mm_create();
++    assert(mm != NULL);
++    struct Page *root = alloc_page();
++    assert(root != NULL);
++    mm->pgdir = page2kva(root);
++    memcpy(mm->pgdir, boot_pgdir_va, PGSIZE);
++    return mm;
++}
++
++static void destroy_test_mm(struct mm_struct *mm)
++{
++    exit_mmap(mm);
++    free_page(kva2page(mm->pgdir));
++    mm_destroy(mm);
++}
++
++static void one_round(void)
++{
++    uintptr_t va = UTEXT, ro = UTEXT + 4 * PGSIZE, far = UTEXT + 4 * 1024 * 1024;
++    struct mm_struct *a = test_mm(), *b = test_mm();
++    assert(mm_map(a, va, 2 * PGSIZE, VM_READ | VM_WRITE, NULL) == 0);
++    assert(mm_map(a, ro, PGSIZE, VM_READ, NULL) == 0);
++    assert(mm_map(a, far, PGSIZE, VM_READ | VM_WRITE, NULL) == 0);
++    assert(mm_map(a, va - PGSIZE, 4 * PGSIZE, VM_READ, NULL) == -E_INVAL);
++    struct Page *shared = pgdir_alloc_page(a->pgdir, va, PTE_U | PTE_R | PTE_W);
++    struct Page *readonly = pgdir_alloc_page(a->pgdir, ro, PTE_U | PTE_R);
++    assert(shared && readonly);
++    memset(page2kva(shared), 0x31, PGSIZE);
++    memset(page2kva(readonly), 0x52, PGSIZE);
++    assert(pgdir_alloc_page(a->pgdir, far, PTE_U | PTE_R | PTE_W));
++    assert(user_mem_check(a, va, 1, 1));
++    char *stale = page2kva(shared); // Capture before fork changes the mapping.
++    assert(dup_mmap(b, a) == 0);
++    pte_t *ap = get_pte(a->pgdir, va, 0), *bp = get_pte(b->pgdir, va, 0);
++    assert(pte2page(*ap) == pte2page(*bp) && page_ref(shared) == 2);
++    assert((*ap & PTE_COW) && !(*ap & PTE_W));
++    assert(!(*get_pte(b->pgdir, ro, 0) & (PTE_COW | PTE_W)));
++    cprintf("[COW kernel] shared PPN, permissions and refs PASS\n");
++
++    // Deterministic failure injection: hide free pages temporarily, with IRQs off.
++    bool irq; local_intr_save(irq);
++    free_area_t saved = free_area;
++    list_init(&free_area.free_list); free_area.nr_free = 0;
++    pte_t before_a = *ap, before_b = *bp;
++    assert(cow_resolve(b, va) == -E_NO_MEM);
++    assert(*ap == before_a && *bp == before_b && page_ref(shared) == 2);
++    free_area = saved;
++    local_intr_restore(irq);
++    cprintf("[COW kernel] OOM leaves mapping and refs unchanged PASS\n");
++
++    // Dirty-COW-like stale translation: validation happened before fork; a direct
++    // kernel mapping bypasses user PTE write protection. Scratch pages only.
++    stale[0] = 'X';
++    assert(((char *)page2kva(get_page(b->pgdir, va, NULL)))[0] == 'X');
++    stale[0] = '1';
++    cprintf("[Dirty COW model] stale direct-map write corrupts peer REPRODUCED\n");
++    char x = 'B';
++    assert(copy_to_user(b, (void *)va, &x, 1));
++    assert(((char *)page2kva(shared))[0] == '1');
++    assert(((char *)page2kva(get_page(b->pgdir, va, NULL)))[0] == 'B');
++    assert(get_page(a->pgdir, va, NULL) != get_page(b->pgdir, va, NULL));
++    assert(page_ref(shared) == 1);
++    size_t before = nr_free_pages();
++    assert(cow_resolve(a, va) == 0);
++    assert(nr_free_pages() == before && !(*ap & PTE_COW) && (*ap & PTE_W));
++    assert(!copy_to_user(b, (void *)ro, &x, 1));
++    assert(cow_resolve(b, ro) == -E_INVAL);
++    assert(((char *)page2kva(readonly))[0] == 0x52);
++    cprintf("[Dirty COW model] checked copyout isolates peer and rejects RO PASS\n");
++
++    char data[8] = "1234567", out[8];
++    assert(copy_to_user(b, (void *)(va + PGSIZE - 4), data, 8));
++    assert(copy_from_user(b, out, (void *)(va + PGSIZE - 4), 8, 0));
++    assert(memcmp(data, out, 8) == 0);
++    assert(!user_mem_check(b, (uintptr_t)-4, 16, 1));
++    assert(!copy_to_user(b, (void *)(va + 2 * PGSIZE - 4), data, 8));
++    cprintf("[COW kernel] cross-page copyout, demand zero, overflow checks PASS\n");
++    destroy_test_mm(a);
++    destroy_test_mm(b);
++}
++
++void check_cow(void)
++{
++    one_round();
++    kmalloc_trim();
++    size_t before = nr_free_pages();
++    for (int i = 0; i < 3; i++) one_round();
++    kmalloc_trim();
++    assert(nr_free_pages() == before);
++    cprintf("[COW kernel] repeated multi-VMA teardown has no page leak PASS\n");
++    cprintf("COW kernel selftests PASS\n");
++}
++#endif
+--- original/kern/mm/default_pmm.c
++++ lab5/kern/mm/default_pmm.c
+@@ -3,7 +3,145 @@
+ #include <string.h>
+ #include <default_pmm.h>
+ 
+-//lab2 请补充你在lab2中的代码
++//lab2 prerequisite 2413807: best-fit with the original Lab5 check functions.
++free_area_t free_area;
++#define free_list (free_area.free_list)
++#define nr_free (free_area.nr_free)
++
++static void default_check(void);
++
++static void best_fit_init(void) {
++    list_init(&free_list); // 初始化哨兵，空表时 next/prev 都指向自身，不能作为物理页解释。
++    nr_free = 0;
++}
++
++static void insert_free_block(struct Page *base) {
++    // 停在第一个地址不小于base的节点之前；到哨兵则等价于插入尾部。
++    list_entry_t *le = list_next(&free_list);
++    while (le != &free_list && le2page(le, page_link) < base) {
++        le = list_next(le);
++    }
++    list_add_before(le, &base->page_link);
++}
++
++static void merge_free_block(struct Page *base) {
++    // 先尝试与前块合并；合并后块头变为prev，后续检查必须从新块头继续。
++    list_entry_t *le = list_prev(&base->page_link);
++    if (le != &free_list) {
++        struct Page *prev = le2page(le, page_link);
++        if (prev + prev->property == base) {
++            prev->property += base->property;
++            ClearPageProperty(base); // 被吞并的旧块头不再是空闲块头，必须清除标志并摘链。
++            base->property = 0;
++            list_del(&base->page_link);
++            base = prev;
++        }
++    }
++    // 再检查后块，处理“左空闲块 + 本次释放区间 + 右空闲块”三段合一。
++    le = list_next(&base->page_link);
++    if (le != &free_list) {
++        struct Page *next = le2page(le, page_link);
++        if (base + base->property == next) {
++            base->property += next->property;
++            ClearPageProperty(next);
++            next->property = 0;
++            list_del(&next->page_link);
++        }
++    }
++}
++
++static void best_fit_init_memmap(struct Page *base, size_t n) {
++    assert(n > 0);
++    // 只有page_init交付的合法reserved区间才能转为空闲区。
++    for (struct Page *p = base; p < base + n; p++) {
++        assert(PageReserved(p));
++        p->flags = 0;
++        p->property = 0;
++        set_page_ref(p, 0);
++    }
++    // property只对空闲块头有意义；中间页不单独进入链表。
++    base->property = n;
++    SetPageProperty(base);
++    nr_free += n;
++    insert_free_block(base);
++    merge_free_block(base);
++}
++
++static struct Page *best_fit_alloc_pages(size_t n) {
++    assert(n > 0);
++    if (n > nr_free) { // 总空闲页数不足时提前失败；不必遍历每个块。
++        return NULL;
++    }
++    // 总空闲页数足够仍可能没有连续满足块，因此还要完整查找。
++    struct Page *best = NULL;
++    for (list_entry_t *le = list_next(&free_list); le != &free_list;
++         le = list_next(le)) {
++        struct Page *p = le2page(le, page_link);
++        // 仅在严格更小时替换候选，同大小自然保留先遇到的低地址块。
++        if (p->property >= n && (best == NULL || p->property < best->property)) {
++            best = p;
++            // 精确匹配已经是最优，无须继续扫描。
++            if (p->property == n) {
++                break;
++            }
++        }
++    }
++    if (best == NULL) { // 总页数充足但没有连续 n 页，属于外部碎片导致的分配失败。
++        return NULL;
++    }
++    // 从前端取走n页；先保存链表位置，再把剩余段的新块头放回原位置。
++    size_t remaining = best->property - n;
++    list_entry_t *prev = list_prev(&best->page_link);
++    list_del(&best->page_link);
++    ClearPageProperty(best);
++    best->property = 0;
++    if (remaining != 0) {
++        struct Page *tail = best + n;
++        tail->property = remaining;
++        SetPageProperty(tail);
++        list_add(prev, &tail->page_link); // 剩余段仍在原块所在位置，保持地址顺序而非按块长排序。
++    }
++    nr_free -= n; // 只扣除实际交付的页数，剩余段一直保留在空闲总量中。
++    return best;
++}
++
++static void best_fit_free_pages(struct Page *base, size_t n) {
++    assert(n > 0);
++    assert(base >= pages && (size_t)(base - pages) < npage - nbase);
++    assert(n <= npage - nbase - (size_t)(base - pages));
++    // 约定传入合法已分配区间，也允许归还较早分配块的一部分。
++    // 这些断言检查边界和已知状态，并非对所有非法释放的完备检测。
++    for (struct Page *p = base; p < base + n; p++) {
++        assert(!PageReserved(p) && !PageProperty(p));
++        p->flags = 0;
++        p->property = 0;
++        set_page_ref(p, 0);
++    }
++    base->property = n;
++    SetPageProperty(base);
++    nr_free += n;
++    // 插入恢复地址顺序，再按物理连续关系与邻块合并；合并不改变总页数。
++    insert_free_block(base);
++    merge_free_block(base);
++}
++
++static size_t best_fit_nr_free_pages(void) {
++    return nr_free;
++}
++
++// 注册到统一PMM接口；check继续指向课程原有检查函数。
++const struct pmm_manager default_pmm_manager = {
++    .name = "default_pmm_manager",
++    .init = best_fit_init,
++    .init_memmap = best_fit_init_memmap,
++    .alloc_pages = best_fit_alloc_pages,
++    .free_pages = best_fit_free_pages,
++    .nr_free_pages = best_fit_nr_free_pages,
++    .check = default_check,
++};
++
++// Framework tests: students must not modify basic_check or best_fit_check.
++
+ 
+ static void
+ basic_check(void)
+--- original/kern/mm/kmalloc.c
++++ lab5/kern/mm/kmalloc.c
+@@ -89,7 +89,7 @@
+ 
+ static inline void __slob_free_pages(unsigned long kva, int order)
+ {
+-	free_pages(kva2page(kva), 1 << order);
++	free_pages(kva2page((void *)kva), 1 << order);
+ }
+ 
+ static void slob_free(void *b, int size);
+@@ -198,6 +198,38 @@
+ 	cprintf("use SLOB allocator\n");
+ }
+ 
++// Return fully free, page-aligned portions of the SLOB arena to PMM.
++// The original skeleton retained them forever after fork bursts.
++void kmalloc_trim(void)
++{
++    bool irq;
++    local_intr_save(irq);
++    slob_t *prev = &arena, *cur = arena.next;
++    slobfree = &arena;
++    while (cur != &arena) {
++        uintptr_t start = ROUNDUP((uintptr_t)cur, PGSIZE);
++        uintptr_t end = ROUNDDOWN((uintptr_t)(cur + cur->units), PGSIZE);
++        if (start < end) {
++            slob_t *next = cur->next;
++            uintptr_t block_end = (uintptr_t)(cur + cur->units);
++            if (end < block_end) {
++                slob_t *tail = (slob_t *)end;
++                tail->units = (block_end - end) / SLOB_UNIT;
++                tail->next = next;
++                next = tail;
++            }
++            if (start > (uintptr_t)cur) {
++                cur->units = (start - (uintptr_t)cur) / SLOB_UNIT;
++                cur->next = next;
++                prev = cur;
++            } else prev->next = next;
++            free_pages(kva2page((void *)start), (end - start) / PGSIZE);
++            cur = next;
++        } else { prev = cur; cur = cur->next; }
++    }
++    local_intr_restore(irq);
++}
++
+ inline void
+ kmalloc_init(void)
+ {
+@@ -220,8 +252,7 @@
+ static int find_order(int size)
+ {
+ 	int order = 0;
+-	for (; size > 4096; size >>= 1)
+-		order++;
++	while (((size_t)PGSIZE << order) < (size_t)size) order++;
+ 	return order;
+ }
+ 
+--- original/kern/mm/kmalloc.h
++++ lab5/kern/mm/kmalloc.h
+@@ -1,5 +1,6 @@
+ #ifndef __KERN_MM_KMALLOC_H__
+ #define __KERN_MM_KMALLOC_H__
++void kmalloc_trim(void);
+ 
+ #include <defs.h>
+ 
+--- original/kern/mm/mmu.h
++++ lab5/kern/mm/mmu.h
+@@ -79,6 +79,7 @@
+ #define PTE_A 0x040    // Accessed
+ #define PTE_D 0x080    // Dirty
+ #define PTE_SOFT 0x300 // Reserved for Software
++#define PTE_COW 0x100  // Writable VMA, temporarily read-only shared leaf
+ 
+ #define PAGE_TABLE_DIR (PTE_V)
+ #define READ_ONLY (PTE_R | PTE_V)
+--- original/kern/mm/pmm.c
++++ lab5/kern/mm/pmm.c
+@@ -12,6 +12,7 @@
+ #include <sync.h>
+ #include <vmm.h>
+ #include <riscv.h>
++#include <proc.h>
+ 
+ // virtual address of physical page array
+ struct Page *pages;
+@@ -87,7 +88,66 @@
+     return ret;
+ }
+ 
+-//lab2 请补充你在lab2中的代码
++static void page_init(void) {
++    extern char end[];
++    uint64_t mem_base = get_memory_base();
++    uint64_t mem_size = get_memory_size();
++    va_pa_offset = PHYSICAL_MEMORY_OFFSET;
++
++    // 当前教学框架只接受固定起点的单个RAM区，先拒绝空范围与地址加法溢出。
++    if (mem_base != DRAM_BASE || mem_size == 0 ||
++        mem_size > (uint64_t)-1 - mem_base) {
++        panic("invalid DTB physical memory range");
++    }
++    uint64_t reported_end = mem_base + mem_size;
++    // DTB 报告的 RAM 可能更大，管理范围受 Lab4 直映区大小限制。
++    const uintptr_t kernel_base = KERNBASE - PHYSICAL_MEMORY_OFFSET;
++    const uintptr_t memory_limit = KERNTOP - PHYSICAL_MEMORY_OFFSET;
++    uint64_t managed_end = reported_end < memory_limit
++                               ? reported_end : memory_limit;
++    managed_end = ROUNDDOWN(managed_end, PGSIZE);
++    if (managed_end <= kernel_base) {
++        panic("RAM does not contain the kernel");
++    }
++    // end是链接器给出的内核虚拟末端；数组起点向上对齐，避免覆盖内核数据。
++    npage = PPN(managed_end); // 末端是开区间；npage 为页号上界，不是可分配页数。
++    pages = (struct Page *)ROUNDUP((uintptr_t)end, PGSIZE);
++    size_t count = npage - nbase; // 每个 RAM 页都有一个描述符，包含后续保持 reserved 的页。
++    uintptr_t pages_pa = PADDR(pages);
++    // 先用除法判断数组是否放得下，再计算乘积/写数组，避免越界初始化。
++    if (pages_pa < kernel_base || pages_pa >= managed_end ||
++        count > (managed_end - pages_pa) / sizeof(struct Page)) {
++        panic("RAM is too small for Page descriptors");
++    }
++    uintptr_t metadata_end = pages_pa + count * sizeof(struct Page);
++    // 数组结束到下一页边界的零头也保留，只交付完整物理页。
++    uintptr_t free_begin = ROUNDUP(metadata_end, PGSIZE);
++
++    cprintf("physical memory map:\n");
++    cprintf("  memory: 0x%016lx, [0x%016lx, 0x%016lx].\n",
++            mem_size, mem_base, reported_end - 1);
++    cprintf("  managed: [0x%016lx, 0x%016lx), descriptors=%lu x %lu bytes\n",
++            mem_base, managed_end, count, (size_t)sizeof(struct Page));
++    cprintf("  descriptors PA: [0x%016lx, 0x%016lx)\n", pages_pa, metadata_end);
++    // 先保守地标记全部页为reserved，包含固件保留区、内核和元数据所在页。
++    for (size_t i = 0; i < count; i++) {
++        struct Page *page = pages + i;
++        page->flags = 0;
++        SetPageReserved(page);
++        page->property = 0;
++        set_page_ref(page, 0);
++        list_init(&page->page_link);
++    }
++    // 没有完整空闲页时不能以n=0调用管理器的init_memmap。
++    if (free_begin >= managed_end) {
++        panic("no complete free physical page");
++    }
++    size_t free_count = (managed_end - free_begin) / PGSIZE;
++    // pa2page把物理页地址换成描述符；具体管理器负责取消这段页的保留状态。
++    init_memmap(pa2page(free_begin), free_count);
++    cprintf("  free PA: [0x%016lx, 0x%016lx), pages=%lu\n",
++            free_begin, managed_end, free_count);
++}
+ 
+ // boot_map_segment - setup&enable the paging mechanism
+ // parameters
+@@ -151,6 +211,8 @@
+     extern char boot_page_table_sv39[];
+     boot_pgdir_va = (pte_t *)boot_page_table_sv39;
+     boot_pgdir_pa = PADDR(boot_pgdir_va);
++    boot_pgdir_va[2] = 0; // High-half execution no longer needs boot identity map.
++    flush_tlb();
+ 
+     check_pgdir();
+ 
+@@ -183,7 +245,7 @@
+         set_page_ref(page, 1);
+         uintptr_t pa = page2pa(page);
+         memset(KADDR(pa), 0, PGSIZE);
+-        *pdep1 = pte_create(page2ppn(page), PTE_U | PTE_V);
++        *pdep1 = pte_create(page2ppn(page), PTE_V);
+     }
+ 
+     pde_t *pdep0 = &((pde_t *)KADDR(PDE_ADDR(*pdep1)))[PDX0(la)];
+@@ -197,7 +259,7 @@
+         set_page_ref(page, 1);
+         uintptr_t pa = page2pa(page);
+         memset(KADDR(pa), 0, PGSIZE);
+-        *pdep0 = pte_create(page2ppn(page), PTE_U | PTE_V);
++        *pdep0 = pte_create(page2ppn(page), PTE_V);
+     }
+     return &((pte_t *)KADDR(PDE_ADDR(*pdep0)))[PTX(la)];
+ }
+@@ -261,67 +323,102 @@
+     assert(start % PGSIZE == 0 && end % PGSIZE == 0);
+     assert(USER_ACCESS(start, end));
+ 
+-    uintptr_t d1start, d0start;
+-    int free_pt, free_pd0;
+-    pde_t *pd0, *pt, pde1, pde0;
+-    d1start = ROUNDDOWN(start, PDSIZE);
+-    d0start = ROUNDDOWN(start, PTSIZE);
+-    do
+-    {
+-        // level 1 page directory entry
+-        pde1 = pgdir[PDX1(d1start)];
+-        // if there is a valid entry, get into level 0
+-        // and try to free all page tables pointed to by
+-        // all valid entries in level 0 page directory,
+-        // then try to free this level 0 page directory
+-        // and update level 1 entry
+-        if (pde1 & PTE_V)
+-        {
+-            pd0 = page2kva(pde2page(pde1));
+-            // try to free all page tables
+-            free_pd0 = 1;
+-            do
+-            {
+-                pde0 = pd0[PDX0(d0start)];
+-                if (pde0 & PTE_V)
+-                {
+-                    pt = page2kva(pde2page(pde0));
+-                    // try to free page table
+-                    free_pt = 1;
+-                    for (int i = 0; i < NPTEENTRY; i++)
+-                        if (pt[i] & PTE_V)
+-                        {
+-                            free_pt = 0;
+-                            break;
+-                        }
+-                    // free it only when all entry are already invalid
+-                    if (free_pt)
+-                    {
+-                        free_page(pde2page(pde0));
+-                        pd0[PDX0(d0start)] = 0;
+-                    }
+-                }
+-                else
+-                    free_pd0 = 0;
+-                d0start += PTSIZE;
+-            } while (d0start != 0 && d0start < d1start + PDSIZE && d0start < end);
+-            // free level 0 page directory only when all pde0s in it are already invalid
+-            if (free_pd0)
+-            {
+-                free_page(pde2page(pde1));
+-                pgdir[PDX1(d1start)] = 0;
++    for (uintptr_t va = ROUNDDOWN(start, PDSIZE); va < end; va += PDSIZE) {
++        pde_t *top = &pgdir[PDX1(va)];
++        if (!(*top & PTE_V)) continue;
++        pde_t *mid = KADDR(PDE_ADDR(*top));
++        for (int j = 0; j < NPTEENTRY; j++) {
++            if (!(mid[j] & PTE_V)) continue;
++            pte_t *pt = KADDR(PDE_ADDR(mid[j]));
++            int k;
++            for (k = 0; k < NPTEENTRY && !(pt[k] & PTE_V); k++);
++            if (k == NPTEENTRY) {
++                free_page(pde2page(mid[j]));
++                mid[j] = 0;
+             }
+         }
+-        d1start += PDSIZE;
+-        d0start = d1start;
+-    } while (d1start != 0 && d1start < end);
+-}
+-
+-
+-//lab5 function3 YOUR CODE 
+-
+-
+-//lab4 请补充你在lab4中的代码
++        int j;
++        for (j = 0; j < NPTEENTRY && !(mid[j] & PTE_V); j++);
++        if (j == NPTEENTRY) { free_page(pde2page(*top)); *top = 0; }
++    }
++}
++
++
++//lab5 function3 2413807; Challenge: share original pages until first write.
++int copy_range(pde_t *to, pde_t *from, uintptr_t start, uintptr_t end, bool share)
++{
++    assert(start % PGSIZE == 0 && end % PGSIZE == 0 && USER_ACCESS(start, end));
++    for (; start < end; start += PGSIZE) {
++        pte_t *src = get_pte(from, start, 0);
++        if (src == NULL) { start = ROUNDUP(start + 1, PTSIZE) - PGSIZE; continue; }
++        if (!(*src & PTE_V)) continue;
++        struct Page *page = pte2page(*src);
++        uint32_t perm = *src & 0x3ff;
++        if (!share) {
++            struct Page *copy = alloc_page();
++            if (copy == NULL) return -E_NO_MEM;
++            memcpy(page2kva(copy), page2kva(page), PGSIZE);
++            if (perm & PTE_COW) perm = (perm | PTE_W) & ~PTE_COW;
++            int ret = page_insert(to, copy, start, perm);
++            if (ret != 0) { free_page(copy); return ret; }
++        } else {
++            // Allocate child PTE first; allocation failure leaves parent unchanged.
++            pte_t *dst = get_pte(to, start, 1);
++            if (dst == NULL) return -E_NO_MEM;
++            if (perm & PTE_W) perm = (perm & ~PTE_W) | PTE_COW;
++            int ret = page_insert(to, page, start, perm);
++            assert(ret == 0);
++            *src = pte_create(page2ppn(page), perm);
++            tlb_invalidate(from, start);
++        }
++    }
++    return 0;
++}
++
++
++void page_remove(pde_t *pgdir, uintptr_t la)
++{
++    bool intr_flag;
++    local_intr_save(intr_flag);
++    pte_t *ptep;
++    struct Page *page = get_page(pgdir, la, &ptep);
++    if (page != NULL)
++    {
++        *ptep = 0;
++        tlb_invalidate(pgdir, la);
++        if (page_ref_dec(page) == 0)
++        {
++            free_page(page);
++        }
++    }
++    local_intr_restore(intr_flag);
++}
++
++int page_insert(pde_t *pgdir, struct Page *page, uintptr_t la, uint32_t perm)
++{
++    bool intr_flag;
++    local_intr_save(intr_flag);
++    pte_t *ptep = get_pte(pgdir, la, 1);
++    if (ptep == NULL)
++    {
++        local_intr_restore(intr_flag);
++        return -E_NO_MEM;
++    }
++
++    struct Page *old_page = (*ptep & PTE_V) ? pte2page(*ptep) : NULL;
++    if (old_page != page)
++    {
++        page_ref_inc(page);
++    }
++    *ptep = pte_create(page2ppn(page), perm);
++    tlb_invalidate(pgdir, la);
++    if (old_page != NULL && old_page != page && page_ref_dec(old_page) == 0)
++    {
++        free_page(old_page);
++    }
++    local_intr_restore(intr_flag);
++    return 0;
++}
+ 
+ 
+ // invalidate a TLB entry, but only if the page tables being
+@@ -393,7 +490,7 @@
+     assert((ptep = get_pte(boot_pgdir_va, PGSIZE, 0)) != NULL);
+     assert(*ptep & PTE_U);
+     assert(*ptep & PTE_W);
+-    assert(boot_pgdir_va[0] & PTE_U);
++    assert(!(boot_pgdir_va[0] & PTE_U));
+     assert(page_ref(p2) == 1);
+ 
+     assert(page_insert(boot_pgdir_va, p1, PGSIZE, 0) == 0);
+@@ -521,3 +618,25 @@
+     }
+     return 0;
+ }
++
++void print_pgdir(void)
++{
++    pde_t *root = current != NULL && current->mm != NULL ? current->mm->pgdir : boot_pgdir_va;
++    cprintf("Sv39 root PA=0x%016lx\n", PADDR(root));
++    for (int i = 0; i < NPTEENTRY; i++) {
++        if (!(root[i] & PTE_V)) continue;
++        cprintf("L2[%d] PTE=0x%016lx\n", i, root[i]);
++        if (root[i] & (PTE_R | PTE_X)) continue;
++        pde_t *mid = KADDR(PDE_ADDR(root[i]));
++        for (int j = 0; j < NPTEENTRY; j++) {
++            if (!(mid[j] & PTE_V)) continue;
++            cprintf("  L1[%d] PTE=0x%016lx\n", j, mid[j]);
++            if (mid[j] & (PTE_R | PTE_X)) continue;
++            pte_t *pt = KADDR(PDE_ADDR(mid[j]));
++            for (int k = 0; k < NPTEENTRY; k++) if (pt[k] & PTE_V)
++                cprintf("    VA=0x%016lx PA=0x%016lx flags=0x%03lx\n",
++                        ((uintptr_t)i << 30) | ((uintptr_t)j << 21) | ((uintptr_t)k << 12),
++                        PTE_ADDR(pt[k]), pt[k] & 0x3ff);
++        }
++    }
++}
+--- original/kern/mm/vmm.c
++++ lab5/kern/mm/vmm.c
+@@ -170,6 +170,8 @@
+ int mm_map(struct mm_struct *mm, uintptr_t addr, size_t len, uint32_t vm_flags,
+            struct vma_struct **vma_store)
+ {
++    if (len == 0 || len > (uintptr_t)-1 - addr || addr + len > USERTOP)
++        return -E_INVAL;
+     uintptr_t start = ROUNDDOWN(addr, PGSIZE), end = ROUNDUP(addr + len, PGSIZE);
+     if (!USER_ACCESS(start, end))
+     {
+@@ -181,9 +183,10 @@
+     int ret = -E_INVAL;
+ 
+     struct vma_struct *vma;
+-    if ((vma = find_vma(mm, start)) != NULL && end > vma->vm_start)
+-    {
+-        goto out;
++    list_entry_t *entry = &mm->mmap_list;
++    while ((entry = list_next(entry)) != &mm->mmap_list) {
++        vma = le2vma(entry, list_link);
++        if (start < vma->vm_end && end > vma->vm_start) goto out;
+     }
+     ret = -E_NO_MEM;
+ 
+@@ -202,7 +205,77 @@
+     return ret;
+ }
+ 
+-//lab5 function3 YOUR CODE 
++//lab5 function3 2413807
++int dup_mmap(struct mm_struct *to, struct mm_struct *from)
++{
++    list_entry_t *le = &from->mmap_list;
++    while ((le = list_next(le)) != &from->mmap_list) {
++        struct vma_struct *vma = le2vma(le, list_link);
++        struct vma_struct *copy = vma_create(vma->vm_start, vma->vm_end, vma->vm_flags);
++        if (copy == NULL) return -E_NO_MEM;
++        insert_vma_struct(to, copy);
++#ifdef FORK_EAGER
++        bool cow = 0;
++#else
++        bool cow = 1;
++#endif
++        int ret = copy_range(to->pgdir, from->pgdir, vma->vm_start, vma->vm_end, cow);
++        if (ret != 0) return ret;
++    }
++    return 0;
++}
++
++// Challenge: only an originally writable VMA and an explicit COW leaf may split.
++int cow_resolve(struct mm_struct *mm, uintptr_t addr)
++{
++    if (mm == NULL || !user_mem_check(mm, addr, 1, 1)) return -E_INVAL;
++    bool intr_flag;
++    local_intr_save(intr_flag);
++    pte_t *pte = get_pte(mm->pgdir, addr, 0);
++    int ret = -E_INVAL;
++    if (pte != NULL && (*pte & (PTE_V | PTE_U | PTE_COW)) ==
++                               (PTE_V | PTE_U | PTE_COW) && !(*pte & PTE_W)) {
++        struct Page *old = pte2page(*pte);
++        uint32_t perm = ((*pte & 0x3ff) | PTE_W | PTE_R | PTE_D) & ~PTE_COW;
++        if (page_ref(old) == 1) {
++            *pte = pte_create(page2ppn(old), perm);
++            tlb_invalidate(mm->pgdir, addr);
++            ret = 0;
++        } else {
++            struct Page *copy = alloc_page();
++            ret = -E_NO_MEM;
++            if (copy != NULL) {
++                memcpy(page2kva(copy), page2kva(old), PGSIZE);
++                ret = page_insert(mm->pgdir, copy, ROUNDDOWN(addr, PGSIZE), perm);
++                if (ret != 0) free_page(copy);
++            }
++        }
++    }
++    local_intr_restore(intr_flag);
++    return ret;
++}
++
++int do_pgfault(struct mm_struct *mm, uintptr_t cause, uintptr_t addr)
++{
++    struct vma_struct *vma = find_vma(mm, addr);
++    uint32_t need = cause == CAUSE_STORE_PAGE_FAULT ? VM_WRITE :
++                    cause == CAUSE_FETCH_PAGE_FAULT ? VM_EXEC : VM_READ;
++    if (vma == NULL || !(vma->vm_flags & need) ||
++        ((vma->vm_flags & VM_STACK) && addr < vma->vm_start + PGSIZE)) return -E_INVAL;
++    pte_t *pte = get_pte(mm->pgdir, addr, 0);
++    if (pte != NULL && (*pte & PTE_V)) {
++        if (cause == CAUSE_STORE_PAGE_FAULT) return cow_resolve(mm, addr);
++        return -E_INVAL;
++    }
++    uint32_t perm = PTE_U;
++    if (vma->vm_flags & VM_READ) perm |= PTE_R;
++    if (vma->vm_flags & VM_WRITE) perm |= PTE_W | PTE_R;
++    if (vma->vm_flags & VM_EXEC) perm |= PTE_X;
++    struct Page *page = pgdir_alloc_page(mm->pgdir, ROUNDDOWN(addr, PGSIZE), perm);
++    if (page == NULL) return -E_NO_MEM;
++    memset(page2kva(page), 0, PGSIZE);
++    return 0;
++}
+ 
+ 
+ 
+@@ -216,6 +289,7 @@
+         struct vma_struct *vma = le2vma(le, list_link);
+         unmap_range(pgdir, vma->vm_start, vma->vm_end);
+     }
++    le = list;
+     while ((le = list_next(le)) != list)
+     {
+         struct vma_struct *vma = le2vma(le, list_link);
+@@ -229,7 +303,23 @@
+     {
+         return 0;
+     }
+-    memcpy(dst, src, len);
++    if (mm == NULL) { memcpy(dst, src, len); return 1; }
++    uintptr_t addr = (uintptr_t)src;
++    while (len) {
++        pte_t *pte = get_pte(mm->pgdir, addr, 0);
++        if (pte == NULL || !(*pte & PTE_V)) {
++            if (do_pgfault(mm, CAUSE_LOAD_PAGE_FAULT, addr) != 0) return 0;
++        }
++        if (writable) {
++            pte = get_pte(mm->pgdir, addr, 0);
++            if ((*pte & PTE_COW) && cow_resolve(mm, addr) != 0) return 0;
++        }
++        struct Page *page = get_page(mm->pgdir, addr, &pte);
++        if (page == NULL || !(*pte & PTE_U) || !(*pte & PTE_R)) return 0;
++        size_t n = PGSIZE - PGOFF(addr); if (n > len) n = len;
++        memcpy(dst, page2kva(page) + PGOFF(addr), n);
++        addr += n; dst += n; len -= n;
++    }
+     return 1;
+ }
+ 
+@@ -239,8 +329,30 @@
+     {
+         return 0;
+     }
+-    memcpy(dst, src, len);
++    if (mm == NULL) { memcpy(dst, src, len); return 1; }
++    // Keep permission check, COW resolution, translation and write indivisible
++    // on the single hart. Never use a stale physical-page pointer after a split.
++    bool intr_flag;
++    local_intr_save(intr_flag);
++    uintptr_t addr = (uintptr_t)dst;
++    while (len) {
++        pte_t *pte = get_pte(mm->pgdir, addr, 0);
++        if (pte == NULL || !(*pte & PTE_V)) {
++            if (do_pgfault(mm, CAUSE_STORE_PAGE_FAULT, addr) != 0) goto fail_copy;
++        }
++        pte = get_pte(mm->pgdir, addr, 0);
++        if ((*pte & PTE_COW) && cow_resolve(mm, addr) != 0) goto fail_copy;
++        struct Page *page = get_page(mm->pgdir, addr, &pte);
++        if (page == NULL || (*pte & (PTE_U | PTE_W)) != (PTE_U | PTE_W)) goto fail_copy;
++        size_t n = PGSIZE - PGOFF(addr); if (n > len) n = len;
++        memcpy(page2kva(page) + PGOFF(addr), src, n);
++        addr += n; src += n; len -= n;
++    }
++    local_intr_restore(intr_flag);
+     return 1;
++fail_copy:
++    local_intr_restore(intr_flag);
++    return 0;
+ }
+ 
+ // vmm_init - initialize virtual memory management
+@@ -330,6 +442,8 @@
+ }
+ bool user_mem_check(struct mm_struct *mm, uintptr_t addr, size_t len, bool write)
+ {
++    if (len == 0) return 1;
++    if (len > (uintptr_t)-1 - addr) return 0;
+     if (mm != NULL)
+     {
+         if (!USER_ACCESS(addr, addr + len))
+@@ -360,4 +474,4 @@
+         return 1;
+     }
+     return KERN_ACCESS(addr, addr + len);
+-}+}
+--- original/kern/mm/vmm.h
++++ lab5/kern/mm/vmm.h
+@@ -53,6 +53,8 @@
+ int mm_unmap(struct mm_struct *mm, uintptr_t addr, size_t len);
+ int dup_mmap(struct mm_struct *to, struct mm_struct *from);
+ void exit_mmap(struct mm_struct *mm);
++int do_pgfault(struct mm_struct *mm, uintptr_t cause, uintptr_t addr);
++int cow_resolve(struct mm_struct *mm, uintptr_t addr);
+ uintptr_t get_unmapped_area(struct mm_struct *mm, size_t len);
+ int mm_brk(struct mm_struct *mm, uintptr_t addr, size_t len);
+ 
+--- original/kern/process/proc.c
++++ lab5/kern/process/proc.c
+@@ -12,6 +12,8 @@
+ #include <stdlib.h>
+ #include <assert.h>
+ #include <unistd.h>
++#include <riscv.h>
++#include <sbi.h>
+ 
+ /* ------------- process/thread mechanism design&implementation -------------
+ (an simplified Linux process/thread mechanism )
+@@ -82,9 +84,34 @@
+ void forkrets(struct trapframe *tf);
+ void switch_to(struct context *from, struct context *to);
+ 
+-//lab4 请补充你在lab4中的代码
+-
+-//lab5 function2 YOUR CODE update alloc_proc
++//lab4 prerequisite; lab5 function2 2413807 update alloc_proc
++static struct proc_struct *alloc_proc(void)
++{
++    struct proc_struct *proc = kmalloc(sizeof(*proc));
++    if (proc != NULL) {
++        memset(proc, 0, sizeof(*proc));
++        proc->state = PROC_UNINIT;
++        proc->pid = -1;
++        proc->pgdir = boot_pgdir_pa;
++        list_init(&proc->list_link);
++        list_init(&proc->hash_link);
++    }
++    return proc;
++}
++
++void proc_run(struct proc_struct *proc)
++{
++    bool intr_flag;
++    local_intr_save(intr_flag);
++    if (proc != current) {
++        struct proc_struct *prev = current;
++        current = proc;
++        lsatp(proc->pgdir);
++        flush_tlb();
++        switch_to(&prev->context, &proc->context);
++    }
++    local_intr_restore(intr_flag);
++}
+ 
+ 
+ // set_proc_name - set the name of proc
+@@ -92,7 +119,7 @@
+ set_proc_name(struct proc_struct *proc, const char *name)
+ {
+     memset(proc->name, 0, sizeof(proc->name));
+-    return memcpy(proc->name, name, PROC_NAME_LEN);
++    return memcpy(proc->name, name, strnlen(name, PROC_NAME_LEN));
+ }
+ 
+ // get_proc_name - get the name of proc
+@@ -228,7 +255,16 @@
+     return NULL;
+ }
+ 
+-//lab5 function2 YOUR CODE update kernel_thread
++//lab5 function2 2413807 update kernel_thread
++int kernel_thread(int (*fn)(void *), void *arg, uint32_t clone_flags)
++{
++    struct trapframe tf = {0};
++    tf.gpr.s0 = (uintptr_t)fn;
++    tf.gpr.s1 = (uintptr_t)arg;
++    tf.epc = (uintptr_t)kernel_thread_entry;
++    tf.status = (read_csr(sstatus) | SSTATUS_SPP | SSTATUS_SPIE) & ~SSTATUS_SIE;
++    return do_fork(clone_flags | CLONE_VM, 0, &tf);
++}
+ 
+ 
+ // setup_kstack - alloc pages with size KSTACKPAGE as process kernel stack
+@@ -274,17 +310,263 @@
+     free_page(kva2page(mm->pgdir));
+ }
+ 
+-//lab5 function3 YOUR CODE update copy_mm
+-
+-
+-
+-//lab5 function2 YOUR CODE
+-
+-
+-//lab5 function3 YOUR CODE
+-
+-
+-//lab5 function4 YOUR CODE
++//lab5 function3 2413807 update copy_mm
++static int copy_mm(uint32_t clone_flags, struct proc_struct *proc)
++{
++    struct mm_struct *oldmm = current->mm, *mm;
++    if (oldmm == NULL) return 0;
++    if (clone_flags & CLONE_VM) {
++        mm = oldmm;
++    } else {
++        if ((mm = mm_create()) == NULL) return -E_NO_MEM;
++        int ret = setup_pgdir(mm);
++        if (ret != 0) { mm_destroy(mm); return ret; }
++        lock_mm(oldmm);
++        ret = dup_mmap(mm, oldmm);
++        unlock_mm(oldmm);
++        if (ret != 0) {
++            exit_mmap(mm);
++            put_pgdir(mm);
++            mm_destroy(mm);
++            return ret;
++        }
++    }
++    mm_count_inc(mm);
++    proc->mm = mm;
++    proc->pgdir = PADDR(mm->pgdir);
++    return 0;
++}
++
++static void copy_thread(struct proc_struct *proc, uintptr_t stack, struct trapframe *tf)
++{
++    proc->tf = (struct trapframe *)(proc->kstack + KSTACKSIZE) - 1;
++    *proc->tf = *tf;
++    proc->tf->gpr.a0 = 0;
++    proc->tf->gpr.sp = stack ? stack : proc->kstack + KSTACKSIZE;
++    proc->tf->status &= ~SSTATUS_SIE;
++    proc->context.ra = (uintptr_t)forkret;
++    proc->context.sp = (uintptr_t)proc->tf;
++}
++
++
++
++//lab5 function2 2413807 ELF loading and exec
++static int load_icode(unsigned char *binary, size_t size)
++{
++    if (size < sizeof(struct elfhdr)) return -E_INVAL_ELF;
++    struct elfhdr *elf = (struct elfhdr *)binary;
++    if (elf->e_magic != ELF_MAGIC || elf->e_machine != 243 ||
++        elf->e_phentsize != sizeof(struct proghdr) ||
++        elf->e_phoff > size || elf->e_phnum > (size - elf->e_phoff) / sizeof(struct proghdr))
++        return -E_INVAL_ELF;
++    struct mm_struct *mm = mm_create();
++    if (mm == NULL) return -E_NO_MEM;
++    int ret = setup_pgdir(mm);
++    if (ret != 0) { mm_destroy(mm); return ret; }
++    struct proghdr *ph = (void *)(binary + elf->e_phoff);
++    for (int i = 0; i < elf->e_phnum; i++, ph++) {
++        if (ph->p_type != ELF_PT_LOAD || ph->p_memsz == 0) continue;
++        ret = -E_INVAL_ELF;
++        if (ph->p_filesz > ph->p_memsz || ph->p_offset > size ||
++            ph->p_filesz > size - ph->p_offset || ph->p_va >= USERTOP ||
++            ph->p_memsz > USERTOP - ph->p_va) goto fail;
++        uint32_t flags = 0, perm = PTE_U;
++        if (ph->p_flags & ELF_PF_R) { flags |= VM_READ; perm |= PTE_R; }
++        if (ph->p_flags & ELF_PF_W) { flags |= VM_WRITE; perm |= PTE_W | PTE_R; }
++        if (ph->p_flags & ELF_PF_X) { flags |= VM_EXEC; perm |= PTE_X; }
++        if (!(perm & (PTE_R | PTE_X))) goto fail;
++        ret = mm_map(mm, ph->p_va, ph->p_memsz, flags, NULL);
++        if (ret != 0) goto fail;
++        uintptr_t end = ph->p_va + ph->p_memsz;
++        for (uintptr_t va = ROUNDDOWN(ph->p_va, PGSIZE); va < end; va += PGSIZE) {
++            struct Page *page = pgdir_alloc_page(mm->pgdir, va, perm);
++            if (page == NULL) { ret = -E_NO_MEM; goto fail; }
++            memset(page2kva(page), 0, PGSIZE);
++            uintptr_t lo = va > ph->p_va ? va : ph->p_va;
++            uintptr_t hi = va + PGSIZE < ph->p_va + ph->p_filesz ?
++                           va + PGSIZE : ph->p_va + ph->p_filesz;
++            if (hi > lo) memcpy(page2kva(page) + (lo - va),
++                                binary + ph->p_offset + lo - ph->p_va, hi - lo);
++        }
++    }
++    struct vma_struct *entry = find_vma(mm, elf->e_entry);
++    if (entry == NULL || !(entry->vm_flags & VM_EXEC)) { ret = -E_INVAL_ELF; goto fail; }
++    ret = mm_map(mm, USTACKTOP - USTACKSIZE, USTACKSIZE,
++                 VM_READ | VM_WRITE | VM_STACK, NULL);
++    if (ret != 0) goto fail;
++    for (int i = 1; i <= 4; i++) {
++        struct Page *page = pgdir_alloc_page(mm->pgdir, USTACKTOP - i * PGSIZE,
++                                             PTE_U | PTE_R | PTE_W);
++        if (page == NULL) { ret = -E_NO_MEM; goto fail; }
++        memset(page2kva(page), 0, PGSIZE);
++    }
++    mm_count_inc(mm);
++    current->mm = mm;
++    current->pgdir = PADDR(mm->pgdir);
++    lsatp(current->pgdir);
++    flush_tlb();
++    asm volatile("fence.i" ::: "memory");
++    struct trapframe *tf = current->tf;
++    memset(tf, 0, sizeof(*tf));
++    tf->gpr.sp = USTACKTOP;
++    tf->epc = elf->e_entry;
++    tf->status = SSTATUS_SPIE | SSTATUS_SUM;
++    return 0;
++fail:
++    exit_mmap(mm);
++    put_pgdir(mm);
++    mm_destroy(mm);
++    return ret;
++}
++
++static void release_mm(struct proc_struct *proc)
++{
++    struct mm_struct *mm = proc->mm;
++    if (mm != NULL) {
++        if (proc == current) { lsatp(boot_pgdir_pa); flush_tlb(); }
++        proc->mm = NULL;
++        proc->pgdir = boot_pgdir_pa;
++        if (mm_count_dec(mm) == 0) {
++            exit_mmap(mm);
++            put_pgdir(mm);
++            mm_destroy(mm);
++        }
++    }
++}
++
++int do_execve(const char *name, size_t len, unsigned char *binary, size_t size)
++{
++    char local_name[PROC_NAME_LEN + 1] = {0};
++    if (len > PROC_NAME_LEN) len = PROC_NAME_LEN;
++    if (!copy_from_user(current->mm, local_name, name, len, 0)) return -E_INVAL;
++    unsigned char *owned = NULL;
++    if (current->mm != NULL) {
++        if (size == 0 || size > 16 * 1024 * 1024) return -E_INVAL;
++        owned = kmalloc(size);
++        if (owned == NULL) return -E_NO_MEM;
++        if (!copy_from_user(current->mm, owned, binary, size, 0)) {
++            kfree(owned); return -E_INVAL;
++        }
++        binary = owned;
++    } else if (!user_mem_check(NULL, (uintptr_t)binary, size, 0)) return -E_INVAL;
++    release_mm(current);
++    int ret = load_icode(binary, size);
++    kfree(owned);
++    if (ret != 0) do_exit(ret);
++    set_proc_name(current, local_name);
++    return 0;
++}
++
++int do_wait(int pid, int *code_store)
++{
++    if (pid < 0) return -E_BAD_PROC;
++    if (code_store != NULL && !user_mem_check(current->mm, (uintptr_t)code_store,
++                                             sizeof(int), 1)) return -E_INVAL;
++    bool intr_flag;
++repeat:
++    local_intr_save(intr_flag);
++    bool has_child = 0;
++    struct proc_struct *proc = current->cptr;
++    for (; proc != NULL; proc = proc->optr) {
++        if (pid != 0 && proc->pid != pid) continue;
++        has_child = 1;
++        if (proc->state == PROC_ZOMBIE) {
++            if (code_store != NULL && !copy_to_user(current->mm, code_store,
++                                                    &proc->exit_code, sizeof(int))) {
++                local_intr_restore(intr_flag); return -E_INVAL;
++            }
++            unhash_proc(proc);
++            remove_links(proc);
++            put_kstack(proc);
++            kfree(proc);
++            local_intr_restore(intr_flag);
++            return 0;
++        }
++    }
++    if (!has_child) { local_intr_restore(intr_flag); return -E_BAD_PROC; }
++    current->state = PROC_SLEEPING;
++    current->wait_state = WT_CHILD;
++    schedule();
++    local_intr_restore(intr_flag);
++    if (current->flags & PF_EXITING) do_exit(-E_KILLED);
++    goto repeat;
++}
++
++
++//lab5 function3 2413807
++int do_fork(uint32_t clone_flags, uintptr_t stack, struct trapframe *tf)
++{
++    if (nr_process >= MAX_PROCESS) return -E_NO_FREE_PROC;
++    struct proc_struct *proc = alloc_proc();
++    if (proc == NULL) return -E_NO_MEM;
++    proc->parent = current;
++    int ret = setup_kstack(proc);
++    if (ret != 0) goto free_proc;
++    ret = copy_mm(clone_flags, proc);
++    if (ret != 0) goto free_stack;
++    copy_thread(proc, stack, tf);
++    bool intr_flag;
++    local_intr_save(intr_flag);
++    ret = proc->pid = get_pid();
++    hash_proc(proc);
++    set_links(proc);
++    wakeup_proc(proc);
++    local_intr_restore(intr_flag);
++    return ret;
++free_stack:
++    put_kstack(proc);
++free_proc:
++    kfree(proc);
++    return ret;
++}
++
++
++//lab5 function4 2413807
++int do_exit(int error_code)
++{
++    assert(current != idleproc && current != initproc);
++    release_mm(current);
++    bool intr_flag;
++    local_intr_save(intr_flag);
++    current->state = PROC_ZOMBIE;
++    current->exit_code = error_code;
++    struct proc_struct *parent = current->parent;
++    if (parent->wait_state == WT_CHILD) wakeup_proc(parent);
++    while (current->cptr != NULL) {
++        struct proc_struct *child = current->cptr;
++        current->cptr = child->optr;
++        if (child->optr != NULL) child->optr->yptr = NULL;
++        child->parent = initproc;
++        child->yptr = NULL;
++        child->optr = initproc->cptr;
++        if (child->optr != NULL) child->optr->yptr = child;
++        initproc->cptr = child;
++        if (child->state == PROC_ZOMBIE && initproc->wait_state == WT_CHILD)
++            wakeup_proc(initproc);
++    }
++    schedule();
++    panic("zombie process returned");
++}
++
++int do_yield(void) { current->need_resched = 1; return 0; }
++
++int do_kill(int pid)
++{
++    bool intr_flag;
++    local_intr_save(intr_flag);
++    struct proc_struct *proc = find_proc(pid);
++    int ret = -E_INVAL;
++    if (proc != NULL && proc != initproc && proc->state != PROC_ZOMBIE) {
++        ret = -E_KILLED;
++        if (!(proc->flags & PF_EXITING)) {
++            proc->flags |= PF_EXITING;
++            if (proc->wait_state & WT_INTERRUPTED) wakeup_proc(proc);
++            ret = 0;
++        }
++    }
++    local_intr_restore(intr_flag);
++    return ret;
++}
+ 
+ 
+ #define __KERNEL_EXECVE(name, binary, size) ({           \
+@@ -308,7 +590,74 @@
+ #define KERNEL_EXECVE2(x, xstart, xsize) __KERNEL_EXECVE2(x, xstart, xsize)
+ 
+ 
+-//lab5 function2 YOUR CODE
+-
+-
+-
++//lab5 function2 2413807
++static int kernel_execve(const char *name, unsigned char *binary, size_t size)
++{
++    // Build the first U-mode frame on this kernel stack, then use trap return.
++    struct trapframe tf;
++    current->tf = &tf;
++    int ret = do_execve(name, strlen(name), binary, size);
++    if (ret != 0) return ret;
++    forkrets(&tf);
++    panic("exec returned");
++}
++
++static int user_main(void *arg)
++{
++#ifdef TEST
++    KERNEL_EXECVE2(TEST, TESTSTART, TESTSIZE);
++#else
++    KERNEL_EXECVE(hello);
++#endif
++    panic("user_main returned");
++}
++
++static int init_main(void *arg)
++{
++#ifdef COW_SELFTEST
++    extern void check_cow(void);
++    check_cow();
++#endif
++    kmalloc_trim();
++    size_t free_before = nr_free_pages();
++    int pid = kernel_thread(user_main, NULL, 0);
++    assert(pid > 0);
++    while (do_wait(0, NULL) == 0) schedule();
++    cprintf("all user-mode processes have quit.\n");
++    kmalloc_trim();
++    assert(nr_process == 2 && list_next(&proc_list) == &initproc->list_link);
++    assert(nr_free_pages() == free_before);
++    cprintf("init check memory pass.\n");
++    // The official grader stops at readline using GDB.
++    extern void kmonitor(struct trapframe *tf);
++    kmonitor(NULL);
++    return 0;
++}
++
++void proc_init(void)
++{
++    list_init(&proc_list);
++    for (int i = 0; i < HASH_LIST_SIZE; i++) list_init(&hash_list[i]);
++    idleproc = alloc_proc();
++    assert(idleproc != NULL);
++    idleproc->pid = 0;
++    idleproc->state = PROC_RUNNABLE;
++    idleproc->kstack = (uintptr_t)bootstack;
++    idleproc->need_resched = 1;
++    set_proc_name(idleproc, "idle");
++    nr_process++;
++    current = idleproc;
++    int pid = kernel_thread(init_main, NULL, 0);
++    assert(pid > 0);
++    initproc = find_proc(pid);
++    assert(initproc != NULL && initproc->pid == 1);
++    set_proc_name(initproc, "init");
++}
++
++void cpu_idle(void)
++{
++    while (1) if (current->need_resched) schedule();
++}
++
++
++
+--- original/kern/process/switch.S
++++ lab5/kern/process/switch.S
+@@ -1,3 +1,39 @@
+ #include <riscv.h>
+ 
+-//lab4 请补充你在lab4中的代码
++//LAB4 function3 2413807
++    .text
++    .globl switch_to
++    .type switch_to, @function
++switch_to:
++    # a0 = old context, a1 = new context. Match struct context in proc.h.
++    STORE ra,  0*REGBYTES(a0)
++    STORE sp,  1*REGBYTES(a0)
++    STORE s0,  2*REGBYTES(a0)
++    STORE s1,  3*REGBYTES(a0)
++    STORE s2,  4*REGBYTES(a0)
++    STORE s3,  5*REGBYTES(a0)
++    STORE s4,  6*REGBYTES(a0)
++    STORE s5,  7*REGBYTES(a0)
++    STORE s6,  8*REGBYTES(a0)
++    STORE s7,  9*REGBYTES(a0)
++    STORE s8, 10*REGBYTES(a0)
++    STORE s9, 11*REGBYTES(a0)
++    STORE s10,12*REGBYTES(a0)
++    STORE s11,13*REGBYTES(a0)
++
++    LOAD ra,  0*REGBYTES(a1)
++    LOAD sp,  1*REGBYTES(a1)
++    LOAD s0,  2*REGBYTES(a1)
++    LOAD s1,  3*REGBYTES(a1)
++    LOAD s2,  4*REGBYTES(a1)
++    LOAD s3,  5*REGBYTES(a1)
++    LOAD s4,  6*REGBYTES(a1)
++    LOAD s5,  7*REGBYTES(a1)
++    LOAD s6,  8*REGBYTES(a1)
++    LOAD s7,  9*REGBYTES(a1)
++    LOAD s8, 10*REGBYTES(a1)
++    LOAD s9, 11*REGBYTES(a1)
++    LOAD s10,12*REGBYTES(a1)
++    LOAD s11,13*REGBYTES(a1)
++    ret
++    .size switch_to, .-switch_to
+--- original/kern/schedule/sched.c
++++ lab5/kern/schedule/sched.c
+@@ -23,4 +23,30 @@
+     local_intr_restore(intr_flag);
+ }
+ 
+-//lab4 请补充你在lab4中的代码
++void schedule(void)
++{
++    bool intr_flag;
++    local_intr_save(intr_flag);
++    current->need_resched = 0;
++
++    list_entry_t *start = current == idleproc ? &proc_list : &current->list_link;
++    list_entry_t *entry = start;
++    struct proc_struct *next = idleproc;
++    do
++    {
++        entry = list_next(entry);
++        if (entry != &proc_list)
++        {
++            struct proc_struct *candidate = le2proc(entry, list_link);
++            if (candidate->state == PROC_RUNNABLE)
++            {
++                next = candidate;
++                break;
++            }
++        }
++    } while (entry != start);
++
++    next->runs++;
++    proc_run(next);
++    local_intr_restore(intr_flag);
++}
+--- original/kern/syscall/syscall.c
++++ lab5/kern/syscall/syscall.c
+@@ -5,6 +5,18 @@
+ #include <stdio.h>
+ #include <pmm.h>
+ #include <assert.h>
++#include <error.h>
++
++//lab5 function1 2413807
++static int sys_exit(uint64_t a[]) { return do_exit((int)a[0]); }
++static int sys_fork(uint64_t a[]) { return do_fork(0, current->tf->gpr.sp, current->tf); }
++static int sys_wait(uint64_t a[]) { return do_wait((int)a[0], (int *)a[1]); }
++static int sys_exec(uint64_t a[]) { return do_execve((char *)a[0], a[1], (void *)a[2], a[3]); }
++static int sys_yield(uint64_t a[]) { return do_yield(); }
++static int sys_kill(uint64_t a[]) { return do_kill((int)a[0]); }
++static int sys_getpid(uint64_t a[]) { return current->pid; }
++static int sys_putc(uint64_t a[]) { cputchar((int)a[0]); return 0; }
++static int sys_pgdir(uint64_t a[]) { print_pgdir(); return 0; }
+ 
+ 
+ static int (*syscalls[])(uint64_t arg[]) = {
+@@ -21,4 +33,12 @@
+ 
+ #define NUM_SYSCALLS        ((sizeof(syscalls)) / (sizeof(syscalls[0])))
+ 
+-//lab5 function1 YOUR CODE
++//lab5 function1 2413807
++void syscall(void)
++{
++    struct trapframe *tf = current->tf;
++    uintptr_t num = tf->gpr.a0;
++    uint64_t args[] = {tf->gpr.a1, tf->gpr.a2, tf->gpr.a3, tf->gpr.a4, tf->gpr.a5};
++    tf->gpr.a0 = (num < NUM_SYSCALLS && syscalls[num] != NULL) ?
++                  syscalls[num](args) : -E_INVAL;
++}
+--- original/kern/trap/trap.c
++++ lab5/kern/trap/trap.c
+@@ -95,9 +95,45 @@
+ 
+ extern struct mm_struct *check_mm_struct;
+ 
+-//lab3 请补充你在lab3中的代码
++//lab3 prerequisite: timer interrupts now request preemption.
++void interrupt_handler(struct trapframe *tf)
++{
++    uintptr_t cause = tf->cause & ~((uintptr_t)1 << 63);
++    if (cause == IRQ_S_TIMER) {
++        clock_set_next_event();
++        ticks++;
++        if (current != NULL) current->need_resched = 1;
++    } else {
++        print_trapframe(tf);
++        panic("unexpected interrupt");
++    }
++}
+ 
+-//lab5 function1 YOUR CODE update exception_handler
++//lab5 function1 2413807 update exception_handler
++void exception_handler(struct trapframe *tf)
++{
++    switch (tf->cause) {
++    case CAUSE_USER_ECALL:
++        tf->epc += 4;
++        syscall();
++        return;
++    case CAUSE_LOAD_PAGE_FAULT:
++    case CAUSE_STORE_PAGE_FAULT:
++    case CAUSE_FETCH_PAGE_FAULT:
++        if (current != NULL && current->mm != NULL &&
++            do_pgfault(current->mm, tf->cause, tf->tval) == 0) return;
++        break;
++    default:
++        break;
++    }
++    if (!trap_in_kernel(tf) && current != NULL) {
++        cprintf("user fault: pid=%d cause=%lu va=0x%016lx epc=0x%016lx\n",
++                current->pid, tf->cause, tf->tval, tf->epc);
++        do_exit(-E_KILLED);
++    }
++    print_trapframe(tf);
++    panic("unhandled kernel exception");
++}
+ 
+ 
+ static inline void trap_dispatch(struct trapframe *tf)
+--- original/kern/trap/trapentry.S
++++ lab5/kern/trap/trapentry.S
+@@ -67,14 +67,56 @@
+ 
+     .macro RESTORE_ALL
+ 
+-    #lab3：填写你在lab3中实现的代码，并进行修改补充
++    # lab3 prerequisite, lab5 2413807: sscratch is kernel stack top in U mode.
++    LOAD s1, 32*REGBYTES(sp)
++    LOAD s2, 33*REGBYTES(sp)
++    andi s0, s1, SSTATUS_SPP
++    bnez s0, 1f
++    addi s0, sp, 36*REGBYTES
++    csrw sscratch, s0
++1:
++    csrw sstatus, s1
++    csrw sepc, s2
++    LOAD x1, 1*REGBYTES(sp)
++    LOAD x3, 3*REGBYTES(sp)
++    LOAD x4, 4*REGBYTES(sp)
++    LOAD x5, 5*REGBYTES(sp)
++    LOAD x6, 6*REGBYTES(sp)
++    LOAD x7, 7*REGBYTES(sp)
++    LOAD x8, 8*REGBYTES(sp)
++    LOAD x9, 9*REGBYTES(sp)
++    LOAD x10, 10*REGBYTES(sp)
++    LOAD x11, 11*REGBYTES(sp)
++    LOAD x12, 12*REGBYTES(sp)
++    LOAD x13, 13*REGBYTES(sp)
++    LOAD x14, 14*REGBYTES(sp)
++    LOAD x15, 15*REGBYTES(sp)
++    LOAD x16, 16*REGBYTES(sp)
++    LOAD x17, 17*REGBYTES(sp)
++    LOAD x18, 18*REGBYTES(sp)
++    LOAD x19, 19*REGBYTES(sp)
++    LOAD x20, 20*REGBYTES(sp)
++    LOAD x21, 21*REGBYTES(sp)
++    LOAD x22, 22*REGBYTES(sp)
++    LOAD x23, 23*REGBYTES(sp)
++    LOAD x24, 24*REGBYTES(sp)
++    LOAD x25, 25*REGBYTES(sp)
++    LOAD x26, 26*REGBYTES(sp)
++    LOAD x27, 27*REGBYTES(sp)
++    LOAD x28, 28*REGBYTES(sp)
++    LOAD x29, 29*REGBYTES(sp)
++    LOAD x30, 30*REGBYTES(sp)
++    LOAD x31, 31*REGBYTES(sp)
++    LOAD x2, 2*REGBYTES(sp)
+     .endm
+ 
+     .globl __alltraps
+ __alltraps:
+     SAVE_ALL
+ 
+-    #lab3:填写你在lab3中实现的代码
++    #lab3 prerequisite 2413807
++    move a0, sp
++    jal trap
+     # sp should be the same as before "jal trap"
+ 
+     .globl __trapret
+--- original/user/libs/syscall.c
++++ lab5/user/libs/syscall.c
+@@ -1,73 +1,26 @@
+ #include <defs.h>
+ #include <unistd.h>
+-#include <stdarg.h>
+ #include <syscall.h>
+ 
+-#define MAX_ARGS            5
+-
+ static inline int
+-syscall(int64_t num, ...) {
+-    va_list ap;
+-    va_start(ap, num);
+-    uint64_t a[MAX_ARGS];
+-    int i, ret;
+-    for (i = 0; i < MAX_ARGS; i ++) {
+-        a[i] = va_arg(ap, uint64_t);
+-    }
+-    va_end(ap);
+-
+-    asm volatile (
+-        "ld a0, %1\n"
+-        "ld a1, %2\n"
+-        "ld a2, %3\n"
+-        "ld a3, %4\n"
+-        "ld a4, %5\n"
+-    	"ld a5, %6\n"
+-        "ecall\n"
+-        "sd a0, %0"
+-        : "=m" (ret)
+-        : "m"(num), "m"(a[0]), "m"(a[1]), "m"(a[2]), "m"(a[3]), "m"(a[4])
+-        :"memory");
+-    return ret;
++syscall(int64_t num, uintptr_t x1, uintptr_t x2, uintptr_t x3,
++        uintptr_t x4, uintptr_t x5)
++{
++    register uintptr_t a0 asm("a0") = num;
++    register uintptr_t a1 asm("a1") = x1;
++    register uintptr_t a2 asm("a2") = x2;
++    register uintptr_t a3 asm("a3") = x3;
++    register uintptr_t a4 asm("a4") = x4;
++    register uintptr_t a5 asm("a5") = x5;
++    asm volatile("ecall" : "+r"(a0), "+r"(a1), "+r"(a2),
++                 "+r"(a3), "+r"(a4), "+r"(a5) : : "memory");
++    return (int)a0;
+ }
+-
+-int
+-sys_exit(int64_t error_code) {
+-    return syscall(SYS_exit, error_code);
+-}
+-
+-int
+-sys_fork(void) {
+-    return syscall(SYS_fork);
+-}
+-
+-int
+-sys_wait(int64_t pid, int *store) {
+-    return syscall(SYS_wait, pid, store);
+-}
+-
+-int
+-sys_yield(void) {
+-    return syscall(SYS_yield);
+-}
+-
+-int
+-sys_kill(int64_t pid) {
+-    return syscall(SYS_kill, pid);
+-}
+-
+-int
+-sys_getpid(void) {
+-    return syscall(SYS_getpid);
+-}
+-
+-int
+-sys_putc(int64_t c) {
+-    return syscall(SYS_putc, c);
+-}
+-
+-int
+-sys_pgdir(void) {
+-    return syscall(SYS_pgdir);
+-}
+-
++int sys_exit(int64_t code) { return syscall(SYS_exit, code, 0, 0, 0, 0); }
++int sys_fork(void) { return syscall(SYS_fork, 0, 0, 0, 0, 0); }
++int sys_wait(int64_t pid, int *store) { return syscall(SYS_wait, pid, (uintptr_t)store, 0, 0, 0); }
++int sys_yield(void) { return syscall(SYS_yield, 0, 0, 0, 0, 0); }
++int sys_kill(int64_t pid) { return syscall(SYS_kill, pid, 0, 0, 0, 0); }
++int sys_getpid(void) { return syscall(SYS_getpid, 0, 0, 0, 0, 0); }
++int sys_putc(int64_t c) { return syscall(SYS_putc, c, 0, 0, 0, 0); }
++int sys_pgdir(void) { return syscall(SYS_pgdir, 0, 0, 0, 0, 0); }

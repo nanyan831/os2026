@@ -1,0 +1,18 @@
+0x0000000000001000 in ?? ()
+Breakpoint 1 at 0xffffffffc0200c1e: file kern/trap/trap.c, line 115.
+
+Breakpoint 1, exception_handler (tf=0xffffffffc04c5ec0) at kern/trap/trap.c:115
+115	    switch (tf->cause) {
+GUEST ECALL cause=8 epc=0x8000aa syscall=30
+   0x8000aa:	ecall
+Breakpoint 2 at 0xffffffffc0200e2a: file kern/trap/trapentry.S, line 126.
+
+Breakpoint 2, __trapret () at kern/trap/trapentry.S:126
+126	    sret
+GUEST before SRET sepc=0x8000ae sstatus=0x200040020 sscratch=0xffffffffc04c5fe0
+=> 0xffffffffc0200e2a <__trapret+86>:	sret
+Temporary breakpoint 3 at 0x8000ae
+
+Temporary breakpoint 3, 0x00000000008000ae in ?? ()
+GUEST after SRET pc=0x8000ae priv=0
+[Inferior 1 (process 1) detached]

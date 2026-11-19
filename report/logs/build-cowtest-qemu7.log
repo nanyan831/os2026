@@ -1,0 +1,4 @@
++ cc kern/mm/cow_test.c
++ cc kern/mm/vmm.c
++ cc kern/process/proc.c
++ ld bin/kernel

@@ -1,0 +1,3 @@
+cowtest qemu6 PASS
+forktree qemu6 PASS
+waitkill qemu6 PASS
